@@ -115,9 +115,6 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                   className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-card-foreground transition-colors hover:bg-secondary"
                 >
                   <span className="font-medium">{getStopName(stop)}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {lang === "ta" ? stop.nameEn : stop.nameTa}
-                  </span>
                 </button>
               ))}
             </div>
@@ -162,9 +159,6 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                   className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-card-foreground transition-colors hover:bg-secondary"
                 >
                   <span className="font-medium">{getStopName(stop)}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {lang === "ta" ? stop.nameEn : stop.nameTa}
-                  </span>
                 </button>
               ))}
             </div>
