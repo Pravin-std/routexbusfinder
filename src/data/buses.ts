@@ -43,7 +43,41 @@ export const busRoutes: BusRoute[] = [
   { id: "14", busNumber: "TNSTC 99", busName: "Nellaiappar", fromId: "madurai", toId: "tirunelveli", departure: "07:00", arrival: "10:30", durationMinutes: 210, price: 150, type: "direct", status: "onTime", busType: "express" },
   { id: "15", busNumber: "SETC 701", busName: "South Express", fromId: "madurai", toId: "tirunelveli", departure: "13:00", arrival: "16:00", durationMinutes: 180, price: 190, type: "direct", status: "onTime", busType: "superDeluxe" },
 
-  // Salem → Erode
+  // Salem → Mettur
+  { id: "21", busNumber: "TNSTC S1", busName: "Mettur Express", fromId: "salem-new", toId: "mettur", departure: "06:00", arrival: "08:00", durationMinutes: 120, price: 45, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["salem-old", "five-roads", "fairlands", "omalur", "karuppur", "tharamangalam", "mecheri", "kolathur", "mettur-dam"] },
+  { id: "22", busNumber: "TNSTC S1A", busName: "Mettur Local", fromId: "salem-new", toId: "mettur", departure: "09:30", arrival: "11:45", durationMinutes: 135, price: 45, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["salem-old", "five-roads", "fairlands", "omalur", "karuppur", "tharamangalam", "mecheri", "kolathur", "mettur-dam"] },
+  { id: "23", busNumber: "TNSTC S1B", busName: "Mettur Fast", fromId: "salem-new", toId: "mettur", departure: "14:00", arrival: "15:50", durationMinutes: 110, price: 50, type: "stops", status: "onTime", busType: "express", intermediateStops: ["omalur", "tharamangalam", "mecheri", "mettur-dam"] },
+
+  // Salem → Attur
+  { id: "24", busNumber: "TNSTC S2", busName: "Attur Express", fromId: "salem-new", toId: "attur", departure: "06:30", arrival: "08:15", durationMinutes: 105, price: 35, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["salem-old", "ammapet", "ayothiapattinam", "valapady", "singipuram", "pethanaickenpalayam", "ethapur"] },
+  { id: "25", busNumber: "TNSTC S2A", busName: "Attur Local", fromId: "salem-new", toId: "attur", departure: "11:00", arrival: "12:50", durationMinutes: 110, price: 35, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["salem-old", "ammapet", "ayothiapattinam", "valapady", "singipuram", "pethanaickenpalayam", "ethapur"] },
+
+  // Salem → Edappadi
+  { id: "26", busNumber: "TNSTC S3", busName: "Edappadi Express", fromId: "salem-new", toId: "edappadi", departure: "07:00", arrival: "08:30", durationMinutes: 90, price: 30, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["kondalampatti", "mamankam", "magudanchavadi", "sankagiri", "thevur"] },
+  { id: "27", busNumber: "TNSTC S3A", busName: "Edappadi Local", fromId: "salem-new", toId: "edappadi", departure: "13:00", arrival: "14:30", durationMinutes: 90, price: 30, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["kondalampatti", "mamankam", "magudanchavadi", "sankagiri", "thevur"] },
+
+  // Salem → Dharmapuri
+  { id: "28", busNumber: "TNSTC S4", busName: "Dharmapuri Express", fromId: "salem-new", toId: "dharmapuri", departure: "06:45", arrival: "09:15", durationMinutes: 150, price: 55, type: "stops", status: "onTime", busType: "express", intermediateStops: ["five-roads", "omalur", "karuppur", "thoppur", "palacode"] },
+  { id: "29", busNumber: "TNSTC S4A", busName: "Dharmapuri Local", fromId: "salem-new", toId: "dharmapuri", departure: "15:00", arrival: "17:45", durationMinutes: 165, price: 50, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["five-roads", "omalur", "karuppur", "thoppur", "palacode"] },
+
+  // Salem → Namakkal
+  { id: "30", busNumber: "TNSTC S5", busName: "Namakkal Express", fromId: "salem-new", toId: "namakkal", departure: "07:30", arrival: "09:00", durationMinutes: 90, price: 35, type: "stops", status: "onTime", busType: "express", intermediateStops: ["seelanaickenpatti", "veerapandi", "rasipuram", "puduchatram"] },
+  { id: "31", busNumber: "TNSTC S5A", busName: "Namakkal Local", fromId: "salem-new", toId: "namakkal", departure: "12:00", arrival: "13:40", durationMinutes: 100, price: 32, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["seelanaickenpatti", "veerapandi", "rasipuram", "puduchatram"] },
+
+  // Salem → Yercaud
+  { id: "32", busNumber: "TNSTC S6", busName: "Yercaud Hill", fromId: "salem-old", toId: "yercaud", departure: "07:00", arrival: "08:15", durationMinutes: 75, price: 25, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["hasthampatti", "gorimedu", "yercaud-foothills", "yercaud-lake"] },
+  { id: "33", busNumber: "TNSTC S6A", busName: "Yercaud Express", fromId: "salem-old", toId: "yercaud", departure: "10:00", arrival: "11:10", durationMinutes: 70, price: 28, type: "stops", status: "onTime", busType: "express", intermediateStops: ["hasthampatti", "gorimedu", "yercaud-foothills", "yercaud-lake"] },
+
+  // Mettur → Erode
+  { id: "34", busNumber: "TNSTC S7", busName: "Mettur-Erode", fromId: "mettur", toId: "erode", departure: "08:00", arrival: "10:30", durationMinutes: 150, price: 50, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["kolathur", "mecheri", "bhavani"] },
+
+  // Attur → Kallakurichi
+  { id: "35", busNumber: "TNSTC S8", busName: "Attur-Kallakurichi", fromId: "attur", toId: "kallakurichi", departure: "09:00", arrival: "11:00", durationMinutes: 120, price: 40, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["ethapur", "pethanaickenpalayam", "gangavalli"] },
+
+  // Sankagiri → Tiruchengode
+  { id: "36", busNumber: "TNSTC S9", busName: "Sankagiri-Tiruchengode", fromId: "sankagiri", toId: "tiruchengode", departure: "08:30", arrival: "09:45", durationMinutes: 75, price: 25, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["magudanchavadi", "komarapalayam"] },
+
+  // Salem → Erode (updated with stops)
   { id: "16", busNumber: "TNSTC 22", busName: "Kongu", fromId: "salem", toId: "erode", departure: "08:00", arrival: "09:30", durationMinutes: 90, price: 60, type: "direct", status: "onTime", busType: "ordinary" },
 
   // Trichy → Thanjavur
