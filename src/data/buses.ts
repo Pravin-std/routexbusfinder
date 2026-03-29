@@ -93,9 +93,13 @@ export const busRoutes: BusRoute[] = [
   { id: "20", busNumber: "SETC 999", busName: "Kumari Express", fromId: "chennai", toId: "kanyakumari", departure: "18:00", arrival: "08:00", durationMinutes: 840, price: 750, type: "direct", status: "onTime", busType: "ac" },
 ];
 
-// Helper to find buses between two stops (checks both directions)
+// Helper to find buses between two stops (matches exact or parent stop prefix)
+const matchStop = (routeStopId: string, searchId: string): boolean => {
+  return routeStopId === searchId || routeStopId.startsWith(searchId + "-") || searchId.startsWith(routeStopId + "-");
+};
+
 export const findBuses = (fromId: string, toId: string): BusRoute[] => {
   return busRoutes.filter(
-    (b) => b.fromId === fromId && b.toId === toId
+    (b) => matchStop(b.fromId, fromId) && matchStop(b.toId, toId)
   );
 };
