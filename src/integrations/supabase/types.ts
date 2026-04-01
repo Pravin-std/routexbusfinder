@@ -14,7 +14,185 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bus_routes: {
+        Row: {
+          arrival: string
+          bus_name: string
+          bus_number: string
+          bus_type: string
+          departure: string
+          duration_minutes: number
+          from_id: string
+          id: string
+          intermediate_stops: string[] | null
+          price: number
+          route_type: string
+          status: string
+          to_id: string
+        }
+        Insert: {
+          arrival: string
+          bus_name: string
+          bus_number: string
+          bus_type: string
+          departure: string
+          duration_minutes: number
+          from_id: string
+          id: string
+          intermediate_stops?: string[] | null
+          price: number
+          route_type: string
+          status?: string
+          to_id: string
+        }
+        Update: {
+          arrival?: string
+          bus_name?: string
+          bus_number?: string
+          bus_type?: string
+          departure?: string
+          duration_minutes?: number
+          from_id?: string
+          id?: string
+          intermediate_stops?: string[] | null
+          price?: number
+          route_type?: string
+          status?: string
+          to_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bus_routes_from_id_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "stops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bus_routes_to_id_fkey"
+            columns: ["to_id"]
+            isOneToOne: false
+            referencedRelation: "stops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      favorites: {
+        Row: {
+          bus_route_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          bus_route_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          bus_route_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_bus_route_id_fkey"
+            columns: ["bus_route_id"]
+            isOneToOne: false
+            referencedRelation: "bus_routes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          name: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      recent_searches: {
+        Row: {
+          from_id: string
+          id: string
+          searched_at: string
+          to_id: string
+          user_id: string
+        }
+        Insert: {
+          from_id: string
+          id?: string
+          searched_at?: string
+          to_id: string
+          user_id: string
+        }
+        Update: {
+          from_id?: string
+          id?: string
+          searched_at?: string
+          to_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recent_searches_from_id_fkey"
+            columns: ["from_id"]
+            isOneToOne: false
+            referencedRelation: "stops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recent_searches_to_id_fkey"
+            columns: ["to_id"]
+            isOneToOne: false
+            referencedRelation: "stops"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stops: {
+        Row: {
+          district: string
+          id: string
+          name_en: string
+          name_ta: string
+        }
+        Insert: {
+          district: string
+          id: string
+          name_en: string
+          name_ta: string
+        }
+        Update: {
+          district?: string
+          id?: string
+          name_en?: string
+          name_ta?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
