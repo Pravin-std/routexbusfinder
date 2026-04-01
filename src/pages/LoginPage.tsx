@@ -10,13 +10,11 @@ const LoginPage = () => {
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
-      {/* Language toggle in top right */}
       <div className="absolute right-4 top-4">
         <LanguageToggle />
       </div>
 
       <div className="w-full max-w-sm animate-fade-in">
-        {/* Logo / Brand */}
         <div className="mb-8 flex flex-col items-center gap-3">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary">
             <Bus className="h-8 w-8 text-primary-foreground" />
@@ -25,13 +23,11 @@ const LoginPage = () => {
           <p className="text-center text-sm text-muted-foreground">{t.app.tagline}</p>
         </div>
 
-        {/* Welcome */}
         <div className="mb-6 text-center">
           <h2 className="text-xl font-semibold text-foreground">{t.login.title}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{t.login.subtitle}</p>
         </div>
 
-        {/* Login buttons */}
         <div className="flex flex-col gap-3">
           <button
             onClick={() => login("google")}

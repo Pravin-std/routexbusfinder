@@ -32,7 +32,6 @@ const ProfilePage = () => {
       </header>
 
       <main className="container max-w-lg py-6">
-        {/* Avatar + name */}
         <div className="mb-6 flex flex-col items-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-primary text-3xl font-bold text-primary-foreground">
             {(user?.name || "U")[0].toUpperCase()}
@@ -41,95 +40,52 @@ const ProfilePage = () => {
           <p className="text-sm text-muted-foreground">{user?.email}</p>
         </div>
 
-        {/* Profile fields */}
         <div className="rounded-xl border border-border bg-card p-4">
-          {/* Name */}
           <div className="mb-4">
             <label className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-              <User className="h-3.5 w-3.5" />
-              {t.profile.name}
+              <User className="h-3.5 w-3.5" /> {t.profile.name}
             </label>
             {editing ? (
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
-              />
+              <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:ring-2 focus:ring-ring" />
             ) : (
               <p className="text-sm font-medium text-foreground">{user?.name}</p>
             )}
           </div>
 
-          {/* Email */}
           <div className="mb-4">
             <label className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-              <Mail className="h-3.5 w-3.5" />
-              {t.profile.email}
+              <Mail className="h-3.5 w-3.5" /> {t.profile.email}
             </label>
             <p className="text-sm text-foreground">{user?.email}</p>
           </div>
 
-          {/* Language preference */}
           <div className="mb-4">
             <label className="mb-1 flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-              <Globe className="h-3.5 w-3.5" />
-              {t.profile.language}
+              <Globe className="h-3.5 w-3.5" /> {t.profile.language}
             </label>
             <div className="flex gap-2">
-              <button
-                onClick={() => setLang("en")}
-                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${lang === "en" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}
-              >
-                English
-              </button>
-              <button
-                onClick={() => setLang("ta")}
-                className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${lang === "ta" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}
-              >
-                தமிழ்
-              </button>
+              <button onClick={() => setLang("en")} className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${lang === "en" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>English</button>
+              <button onClick={() => setLang("ta")} className={`rounded-full px-4 py-1.5 text-xs font-medium transition-colors ${lang === "ta" ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>தமிழ்</button>
             </div>
           </div>
 
-          {/* Edit / Save buttons */}
           <div className="flex gap-2">
             {editing ? (
               <>
-                <button
-                  onClick={handleSave}
-                  className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90"
-                >
-                  {t.profile.save}
-                </button>
-                <button
-                  onClick={() => setEditing(false)}
-                  className="flex-1 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium text-card-foreground transition-colors hover:bg-secondary"
-                >
-                  {t.profile.cancel}
-                </button>
+                <button onClick={handleSave} className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:opacity-90">{t.profile.save}</button>
+                <button onClick={() => setEditing(false)} className="flex-1 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium text-card-foreground transition-colors hover:bg-secondary">{t.profile.cancel}</button>
               </>
             ) : (
-              <button
-                onClick={() => setEditing(true)}
-                className="flex-1 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium text-card-foreground transition-colors hover:bg-secondary"
-              >
-                {t.profile.editProfile}
-              </button>
+              <button onClick={() => setEditing(true)} className="flex-1 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium text-card-foreground transition-colors hover:bg-secondary">{t.profile.editProfile}</button>
             )}
           </div>
         </div>
 
-        {/* Logout */}
         <button
-          onClick={() => {
-            logout();
-            navigate("/");
-          }}
+          onClick={async () => { await logout(); navigate("/"); }}
           className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-destructive px-4 py-2.5 text-sm font-medium text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground"
         >
-          <LogOut className="h-4 w-4" />
-          {t.nav.logout}
+          <LogOut className="h-4 w-4" /> {t.nav.logout}
         </button>
       </main>
     </div>

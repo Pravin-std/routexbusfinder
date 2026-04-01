@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
+import type { User as SupabaseUser, Session } from "@supabase/supabase-js";
 
 export interface User {
   id: string;
@@ -11,48 +14,92 @@ export interface User {
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (provider: "google" | "apple" | "guest") => void;
-  logout: () => void;
+  isLoading: boolean;
+  login: (provider: "google" | "apple" | "guest") => Promise<void>;
+  logout: () => Promise<void>;
   updateUser: (data: Partial<User>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem("tn-bus-user");
-    return saved ? JSON.parse(saved) : null;
-  });
+const mapSupabaseUser = (su: SupabaseUser): User => ({
+  id: su.id,
+  name: su.user_metadata?.full_name || su.user_metadata?.name || su.email?.split("@")[0] || "User",
+  email: su.email || "",
+  avatar: su.user_metadata?.avatar_url,
+  provider: (su.app_metadata?.provider as "google" | "apple") || "guest",
+});
 
-  const login = useCallback((provider: "google" | "apple" | "guest") => {
-    // Mock login — replace with real auth later
-    const mockUser: User = {
-      id: crypto.randomUUID(),
-      name: provider === "guest" ? "Guest User" : "Tamil Nadu User",
-      email: provider === "guest" ? "guest@example.com" : "user@example.com",
-      avatar: undefined,
-      provider,
-    };
-    setUser(mockUser);
-    localStorage.setItem("tn-bus-user", JSON.stringify(mockUser));
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Listen to auth state changes FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser(mapSupabaseUser(session.user));
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+
+    // Then check existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(mapSupabaseUser(session.user));
+      }
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const logout = useCallback(() => {
+  const login = useCallback(async (provider: "google" | "apple" | "guest") => {
+    if (provider === "guest") {
+      // Sign in anonymously
+      const { error } = await supabase.auth.signInAnonymously();
+      if (error) console.error("Guest login error:", error.message);
+      return;
+    }
+
+    // OAuth via Lovable Cloud managed auth
+    const result = await lovable.auth.signInWithOAuth(provider, {
+      redirect_uri: window.location.origin,
+    });
+
+    if (result.error) {
+      console.error("OAuth error:", result.error);
+      return;
+    }
+
+    if (result.redirected) {
+      // Browser will redirect to provider — just return
+      return;
+    }
+    // Session is set automatically by onAuthStateChange
+  }, []);
+
+  const logout = useCallback(async () => {
+    await supabase.auth.signOut();
     setUser(null);
-    localStorage.removeItem("tn-bus-user");
   }, []);
 
   const updateUser = useCallback((data: Partial<User>) => {
-    setUser((prev) => {
-      if (!prev) return prev;
-      const updated = { ...prev, ...data };
-      localStorage.setItem("tn-bus-user", JSON.stringify(updated));
-      return updated;
-    });
+    setUser((prev) => (prev ? { ...prev, ...data } : prev));
+    // Also update profile in DB
+    if (data.name) {
+      supabase.auth.getUser().then(({ data: { user: su } }) => {
+        if (su) {
+          supabase.from("profiles").update({ name: data.name }).eq("user_id", su.id).then(() => {});
+        }
+      });
+    }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, isAuthenticated: !!user, isLoading, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

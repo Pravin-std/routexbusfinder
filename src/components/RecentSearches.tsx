@@ -1,6 +1,6 @@
 import React from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { stops } from "@/data/stops";
+import { useStops } from "@/hooks/useStops";
 import { Clock } from "lucide-react";
 
 interface RecentSearch {
@@ -16,11 +16,12 @@ interface RecentSearchesProps {
 
 const RecentSearches = ({ searches, onSelect }: RecentSearchesProps) => {
   const { t, lang } = useLanguage();
+  const { data: stops = [] } = useStops();
 
   const getStopName = (id: string) => {
     const stop = stops.find((s) => s.id === id);
     if (!stop) return id;
-    return lang === "ta" ? stop.nameTa : stop.nameEn;
+    return lang === "ta" ? stop.name_ta : stop.name_en;
   };
 
   if (searches.length === 0) return null;
@@ -33,11 +34,7 @@ const RecentSearches = ({ searches, onSelect }: RecentSearchesProps) => {
       </h3>
       <div className="flex flex-wrap gap-2">
         {searches.map((s, i) => (
-          <button
-            key={i}
-            onClick={() => onSelect(s.fromId, s.toId)}
-            className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-card-foreground transition-colors hover:bg-secondary"
-          >
+          <button key={i} onClick={() => onSelect(s.fromId, s.toId)} className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-card-foreground transition-colors hover:bg-secondary">
             {getStopName(s.fromId)} → {getStopName(s.toId)}
           </button>
         ))}
