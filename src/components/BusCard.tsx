@@ -21,6 +21,13 @@ const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
     return lang === "ta" ? stop.name_ta : stop.name_en;
   };
 
+  const formatTime12 = (time24: string) => {
+    const [h, m] = time24.split(":").map(Number);
+    const period = h >= 12 ? "PM" : "AM";
+    const hour12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+    return `${hour12}:${m.toString().padStart(2, "0")} ${period}`;
+  };
+
   const formatDuration = (mins: number) => {
     const h = Math.floor(mins / 60);
     const m = mins % 60;
