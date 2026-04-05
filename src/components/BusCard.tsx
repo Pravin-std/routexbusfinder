@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useStops } from "@/hooks/useStops";
 import { BusRoute } from "@/hooks/useBusSearch";
-import { ArrowRight, AlertTriangle, Zap, BadgeIndianRupee, Timer } from "lucide-react";
+import { ArrowRight, AlertTriangle, Zap, BadgeIndianRupee, Timer, MapPin } from "lucide-react";
+import RouteTimeline from "@/components/RouteTimeline";
 
 interface BusCardProps {
   bus: BusRoute;
@@ -14,6 +15,26 @@ interface BusCardProps {
 const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
   const { t, lang } = useLanguage();
   const { data: stops = [] } = useStops();
+  const [showRoute, setShowRoute] = useState(false);
+
+  // Build the full stop list for the route timeline
+  const routeStops = (() => {
+    const names: string[] = [];
+    const fromName = getStopLabel(bus.from_id);
+    names.push(fromName);
+    if (bus.intermediate_stops?.length) {
+      bus.intermediate_stops.forEach((sid) => names.push(getStopLabel(sid)));
+    }
+    const toName = getStopLabel(bus.to_id);
+    names.push(toName);
+    return names;
+  })();
+
+  function getStopLabel(id: string) {
+    const stop = stops.find((s) => s.id === id);
+    if (!stop) return id;
+    return lang === "ta" ? stop.name_ta : stop.name_en;
+  }
 
   const getStopName = (id: string) => {
     const stop = stops.find((s) => s.id === id);
@@ -87,12 +108,28 @@ const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
           {bus.status === "delayed" && <AlertTriangle className="h-3 w-3" />}
           {bus.status === "onTime" ? t.results.onTime : t.results.delayed}
         </span>
-        {onSaveRoute && (
-          <button onClick={onSaveRoute} className={`text-xs font-medium transition-colors ${isSaved ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
-            {isSaved ? "★ " + t.favorites.saved : "☆ " + t.favorites.save}
+        <div className="flex items-center gap-3">
+          <button onClick={() => setShowRoute(true)} className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
+            <MapPin className="h-3 w-3" />
+            View Route
           </button>
-        )}
+          {onSaveRoute && (
+            <button onClick={onSaveRoute} className={`text-xs font-medium transition-colors ${isSaved ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+              {isSaved ? "★ " + t.favorites.saved : "☆ " + t.favorites.save}
+            </button>
+          )}
+        </div>
       </div>
+
+      {showRoute && (
+        <RouteTimeline
+          stops={routeStops}
+          busNumber={bus.bus_number}
+          departure={bus.departure}
+          arrival={bus.arrival}
+          onClose={() => setShowRoute(false)}
+        />
+      )}
     </div>
   );
 };
