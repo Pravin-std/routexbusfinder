@@ -21,6 +21,13 @@ const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
     return lang === "ta" ? stop.name_ta : stop.name_en;
   };
 
+  const formatTime12 = (time24: string) => {
+    const [h, m] = time24.split(":").map(Number);
+    const period = h >= 12 ? "PM" : "AM";
+    const hour12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+    return `${hour12}:${m.toString().padStart(2, "0")} ${period}`;
+  };
+
   const formatDuration = (mins: number) => {
     const h = Math.floor(mins / 60);
     const m = mins % 60;
@@ -58,7 +65,7 @@ const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
 
       <div className="mt-3 flex items-center gap-3">
         <div className="flex flex-col items-center">
-          <span className="text-sm font-semibold text-foreground">{bus.departure}</span>
+          <span className="text-sm font-semibold text-foreground">{formatTime12(bus.departure)}</span>
           <span className="text-[10px] text-muted-foreground">{getStopName(bus.from_id)}</span>
         </div>
         <div className="flex flex-1 flex-col items-center">
@@ -70,7 +77,7 @@ const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
           </div>
         </div>
         <div className="flex flex-col items-center">
-          <span className="text-sm font-semibold text-foreground">{bus.arrival}</span>
+          <span className="text-sm font-semibold text-foreground">{formatTime12(bus.arrival)}</span>
           <span className="text-[10px] text-muted-foreground">{getStopName(bus.to_id)}</span>
         </div>
       </div>
