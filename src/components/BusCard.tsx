@@ -77,7 +77,7 @@ const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
           </div>
         </div>
         <div className="flex flex-col items-center">
-          <span className="text-sm font-semibold text-foreground">{bus.arrival}</span>
+          <span className="text-sm font-semibold text-foreground">{formatTime12(bus.arrival)}</span>
           <span className="text-[10px] text-muted-foreground">{getStopName(bus.to_id)}</span>
         </div>
       </div>
