@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
-import { Bus } from "lucide-react";
+import logo from "@/assets/routex-logo.jpg";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -16,10 +16,7 @@ const LoginPage = () => {
 
       <div className="w-full max-w-sm animate-fade-in">
         <div className="mb-8 flex flex-col items-center gap-3">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary">
-            <Bus className="h-8 w-8 text-primary-foreground" />
-          </div>
-          <h1 className="text-2xl font-bold text-foreground">{t.app.name}</h1>
+          <img src={logo} alt="RouteX logo" className="h-28 w-28 rounded-2xl object-contain" />
           <p className="text-center text-sm text-muted-foreground">{t.app.tagline}</p>
         </div>
 

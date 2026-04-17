@@ -8,8 +8,9 @@ import LanguageToggle from "@/components/LanguageToggle";
 import SearchForm from "@/components/SearchForm";
 import BusResults from "@/components/BusResults";
 import RecentSearches, { RecentSearch } from "@/components/RecentSearches";
-import { Bus, Heart, User, LogOut } from "lucide-react";
+import { Heart, User, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import logo from "@/assets/routex-logo.jpg";
 
 const Dashboard = () => {
   const { t, lang } = useLanguage();
@@ -59,7 +60,7 @@ const Dashboard = () => {
       <header className="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur-md">
         <div className="container flex items-center justify-between py-3">
           <div className="flex items-center gap-2">
-            <Bus className="h-5 w-5 text-primary" />
+            <img src={logo} alt="RouteX" className="h-7 w-7 rounded-md object-contain" />
             <span className="text-sm font-bold text-foreground">{t.app.name}</span>
           </div>
           <div className="flex items-center gap-2">
