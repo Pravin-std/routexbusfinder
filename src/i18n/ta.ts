@@ -1,7 +1,7 @@
 // Tamil translations
 export const ta = {
   app: {
-    name: "TN ஸ்மார்ட் பஸ் ஃபைண்டர்",
+    name: "RouteX",
     tagline: "தமிழ்நாடு முழுவதும் உங்கள் பஸ்சைக் கண்டுபிடியுங்கள்",
   },
   login: {

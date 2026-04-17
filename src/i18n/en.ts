@@ -1,7 +1,7 @@
 // English translations
 export const en = {
   app: {
-    name: "TN Smart Bus Finder",
+    name: "RouteX",
     tagline: "Find your bus across Tamil Nadu",
   },
   login: {
