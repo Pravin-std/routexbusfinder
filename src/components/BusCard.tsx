@@ -90,9 +90,9 @@ const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
           {bus.status === "onTime" ? t.results.onTime : t.results.delayed}
         </span>
         <div className="flex items-center gap-3">
-          <button onClick={() => setShowRoute(true)} className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
-            <MapPin className="h-3 w-3" />
-            View Route
+          <button onClick={() => setShowTicket(true)} className="flex items-center gap-1 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90">
+            <Ticket className="h-3 w-3" />
+            Book Ticket
           </button>
           {onSaveRoute && (
             <button onClick={onSaveRoute} className={`text-xs font-medium transition-colors ${isSaved ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
@@ -102,15 +102,7 @@ const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
         </div>
       </div>
 
-      {showRoute && (
-        <RouteTimeline
-          stops={routeStops}
-          busNumber={bus.bus_number}
-          departure={bus.departure}
-          arrival={bus.arrival}
-          onClose={() => setShowRoute(false)}
-        />
-      )}
+      <TicketFlow open={showTicket} onClose={() => setShowTicket(false)} bus={bus} />
     </div>
   );
 };
