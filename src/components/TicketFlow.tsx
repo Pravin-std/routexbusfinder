@@ -202,31 +202,23 @@ const TicketFlow: React.FC<TicketFlowProps> = ({ open, onClose, bus }) => {
         {step === "payment" && (
           <div className="animate-fade-in p-5">
             <div className="mb-4 flex items-center gap-2">
-              <QrCode className="h-5 w-5 text-primary" />
-              <h2 className="text-base font-bold text-foreground">Payment</h2>
+              <Ticket className="h-5 w-5 text-primary" />
+              <h2 className="text-base font-bold text-foreground">Pay ₹{bus.price}</h2>
             </div>
 
-            <div className="rounded-xl border border-dashed border-border bg-muted/40 p-5 text-center">
-              <p className="text-sm font-medium text-foreground">
-                Scan the QR code available inside the bus to complete payment
-              </p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Pay ₹{bus.price} using any UPI app
-              </p>
+            <p className="mb-3 text-center text-xs text-muted-foreground">
+              Choose a UPI app to complete payment
+            </p>
 
-              <div className="mt-4 flex items-center justify-center gap-3">
-                <PayBadge label="GPay" bg="bg-info/10" fg="text-info" />
-                <PayBadge label="PhonePe" bg="bg-accent/30" fg="text-accent-foreground" />
-                <PayBadge label="Paytm" bg="bg-primary/10" fg="text-primary" />
-              </div>
+            <div className="grid grid-cols-3 gap-2">
+              <PayButton label="GPay" bg="bg-info/10" fg="text-info" onClick={openUpi} />
+              <PayButton label="PhonePe" bg="bg-accent/30" fg="text-accent-foreground" onClick={openUpi} />
+              <PayButton label="Paytm" bg="bg-primary/10" fg="text-primary" onClick={openUpi} />
             </div>
 
-            <Button className="mt-5 w-full" onClick={() => setStep("processing")}>
-              I Have Paid
-            </Button>
             <button
               onClick={() => setStep("summary")}
-              className="mt-2 w-full text-xs text-muted-foreground hover:text-foreground"
+              className="mt-4 w-full text-xs text-muted-foreground hover:text-foreground"
             >
               ← Back
             </button>
@@ -241,80 +233,24 @@ const TicketFlow: React.FC<TicketFlowProps> = ({ open, onClose, bus }) => {
         )}
 
         {step === "ticket" && ticket && (
-          <div className="animate-fade-in">
-            <div className="flex flex-col items-center gap-2 bg-success/10 px-5 py-6 text-center">
-              <div className="rounded-full bg-success/20 p-2">
-                <CheckCircle2 className="h-8 w-8 text-success animate-scale-in" />
-              </div>
-              <p className="text-base font-bold text-success">Payment Successful</p>
+          <div className="animate-fade-in p-5">
+            <div className="mb-3 flex items-center justify-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-success animate-scale-in" />
+              <p className="text-sm font-bold text-success">Payment Successful</p>
             </div>
 
-            <div className="p-5">
-              <div className="rounded-xl border border-border bg-card p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-wide text-muted-foreground">Passenger</p>
-                    <p className="text-sm font-semibold text-foreground">{ticket.passenger}</p>
-                  </div>
-                  <span className="rounded-full bg-success px-2.5 py-0.5 text-[10px] font-bold text-success-foreground">
-                    PAID ✓
-                  </span>
-                </div>
+            <HorizontalTicketStub
+              ticket={ticket}
+              issuedDate={issuedDate}
+            />
 
-                <div className="my-3 h-px bg-border" />
+            <p className="mt-3 text-center text-xs text-muted-foreground">
+              Show this ticket to conductor if asked
+            </p>
 
-                <div className="flex items-center justify-between gap-3">
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[10px] uppercase tracking-wide text-muted-foreground">From</p>
-                    <p className="truncate text-sm font-semibold text-foreground">{ticket.fromName}</p>
-                  </div>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground" />
-                  <div className="min-w-0 flex-1 text-right">
-                    <p className="text-[10px] uppercase tracking-wide text-muted-foreground">To</p>
-                    <p className="truncate text-sm font-semibold text-foreground">{ticket.toName}</p>
-                  </div>
-                </div>
-
-                <div className="my-3 h-px bg-border" />
-
-                <dl className="grid grid-cols-2 gap-3 text-xs">
-                  <div>
-                    <dt className="text-muted-foreground">Bus</dt>
-                    <dd className="font-medium text-foreground">{ticket.busNumber}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-muted-foreground">Fare</dt>
-                    <dd className="font-medium text-foreground">₹{ticket.price}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-muted-foreground">Departure</dt>
-                    <dd className="font-medium text-foreground">{formatTime12(ticket.departure)}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-muted-foreground">Issued</dt>
-                    <dd className="font-medium text-foreground">{issuedDate}</dd>
-                  </div>
-                  <div className="col-span-2">
-                    <dt className="text-muted-foreground">Ticket ID</dt>
-                    <dd className="font-mono text-sm font-bold text-primary">{ticket.ticketId}</dd>
-                  </div>
-                </dl>
-              </div>
-
-              <p className="mt-3 text-center text-xs text-muted-foreground">
-                Show this ticket to conductor if asked
-              </p>
-
-              <div className="mt-4 flex gap-2">
-                <Button variant="outline" className="flex-1" onClick={downloadTicket}>
-                  <Download className="h-4 w-4" />
-                  Download
-                </Button>
-                <Button className="flex-1" onClick={onClose}>
-                  Done
-                </Button>
-              </div>
-            </div>
+            <Button className="mt-4 w-full" onClick={onClose}>
+              Done
+            </Button>
           </div>
         )}
       </DialogContent>
@@ -322,11 +258,110 @@ const TicketFlow: React.FC<TicketFlowProps> = ({ open, onClose, bus }) => {
   );
 };
 
-const PayBadge: React.FC<{ label: string; bg: string; fg: string }> = ({ label, bg, fg }) => (
-  <div className={`flex h-10 w-16 items-center justify-center rounded-lg ${bg}`}>
-    <span className={`text-xs font-bold ${fg}`}>{label}</span>
-  </div>
+const PayButton: React.FC<{
+  label: string;
+  bg: string;
+  fg: string;
+  onClick: () => void;
+}> = ({ label, bg, fg, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`flex h-14 items-center justify-center rounded-xl ${bg} font-bold ${fg} transition-transform active:scale-95`}
+  >
+    {label}
+  </button>
 );
+
+const HorizontalTicketStub: React.FC<{
+  ticket: SavedTicket;
+  issuedDate: string;
+}> = ({ ticket, issuedDate }) => {
+  // Yellow paper-stub style ticket inspired by classic cinema/bus tickets.
+  const stubId = ticket.ticketId.replace(/[^A-Z0-9]/g, "").slice(-6);
+  return (
+    <div
+      className="relative mx-auto flex w-full max-w-md overflow-hidden rounded-lg bg-[hsl(45_85%_60%)] text-[hsl(0_70%_35%)] shadow-lg ring-1 ring-[hsl(0_70%_35%/0.4)]"
+      style={{
+        backgroundImage:
+          "radial-gradient(hsl(45 60% 50% / 0.25) 1px, transparent 1px)",
+        backgroundSize: "6px 6px",
+      }}
+    >
+      {/* left stub */}
+      <div className="flex w-14 items-center justify-center border-r-2 border-dashed border-[hsl(0_70%_35%/0.6)]">
+        <span
+          className="font-mono text-lg font-extrabold tracking-widest"
+          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+        >
+          {stubId}
+        </span>
+      </div>
+
+      {/* center */}
+      <div className="flex-1 px-4 py-4">
+        <div className="flex items-center justify-between gap-3">
+          <img
+            src={logo}
+            alt="RouteX"
+            className="h-9 w-9 rounded-md object-contain ring-1 ring-[hsl(0_70%_35%/0.4)]"
+          />
+          <div className="flex items-center gap-1 rounded-full bg-[hsl(0_70%_35%)] px-2 py-0.5 text-[10px] font-bold text-[hsl(45_85%_92%)]">
+            <Bus className="h-3 w-3" />
+            {ticket.busNumber}
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-center justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <p className="text-[9px] font-bold uppercase tracking-wider opacity-70">From</p>
+            <p className="truncate text-sm font-extrabold leading-tight">{ticket.fromName}</p>
+          </div>
+          <ArrowRight className="h-4 w-4 shrink-0" />
+          <div className="min-w-0 flex-1 text-right">
+            <p className="text-[9px] font-bold uppercase tracking-wider opacity-70">To</p>
+            <p className="truncate text-sm font-extrabold leading-tight">{ticket.toName}</p>
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-end justify-between border-t border-dashed border-[hsl(0_70%_35%/0.5)] pt-2 text-[10px] font-semibold">
+          <div>
+            <p className="opacity-70">Departure</p>
+            <p className="text-xs font-bold">
+              {(() => {
+                const [h, m] = ticket.departure.split(":").map(Number);
+                const period = h >= 12 ? "PM" : "AM";
+                const hour12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+                return `${hour12}:${m.toString().padStart(2, "0")} ${period}`;
+              })()}
+            </p>
+          </div>
+          <div className="text-center">
+            <p className="opacity-70">Issued</p>
+            <p className="text-[10px] font-bold">{issuedDate}</p>
+          </div>
+          <div className="text-right">
+            <p className="opacity-70">Fare</p>
+            <p className="text-base font-extrabold">₹{ticket.price}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* right stub */}
+      <div className="flex w-14 items-center justify-center border-l-2 border-dashed border-[hsl(0_70%_35%/0.6)]">
+        <span
+          className="font-mono text-lg font-extrabold tracking-widest"
+          style={{ writingMode: "vertical-rl" }}
+        >
+          {stubId}
+        </span>
+      </div>
+
+      {/* perforation notches */}
+      <span className="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-background" />
+      <span className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-background" />
+    </div>
+  );
+};
 
 export default TicketFlow;
 export type { SavedTicket };
