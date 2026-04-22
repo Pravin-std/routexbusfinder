@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useStops } from "@/hooks/useStops";
 import { BusRoute } from "@/hooks/useBusSearch";
-import { ArrowRight, AlertTriangle, Zap, BadgeIndianRupee, Timer, MapPin } from "lucide-react";
-import RouteTimeline from "@/components/RouteTimeline";
+import { ArrowRight, AlertTriangle, Zap, BadgeIndianRupee, Timer, Ticket } from "lucide-react";
+import TicketFlow from "@/components/TicketFlow";
 
 interface BusCardProps {
   bus: BusRoute;
@@ -15,26 +15,7 @@ interface BusCardProps {
 const BusCard = ({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) => {
   const { t, lang } = useLanguage();
   const { data: stops = [] } = useStops();
-  const [showRoute, setShowRoute] = useState(false);
-
-  // Build the full stop list for the route timeline
-  const routeStops = (() => {
-    const names: string[] = [];
-    const fromName = getStopLabel(bus.from_id);
-    names.push(fromName);
-    if (bus.intermediate_stops?.length) {
-      bus.intermediate_stops.forEach((sid) => names.push(getStopLabel(sid)));
-    }
-    const toName = getStopLabel(bus.to_id);
-    names.push(toName);
-    return names;
-  })();
-
-  function getStopLabel(id: string) {
-    const stop = stops.find((s) => s.id === id);
-    if (!stop) return id;
-    return lang === "ta" ? stop.name_ta : stop.name_en;
-  }
+  const [showTicket, setShowTicket] = useState(false);
 
   const getStopName = (id: string) => {
     const stop = stops.find((s) => s.id === id);
