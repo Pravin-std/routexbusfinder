@@ -1,11 +1,16 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useStops } from "@/hooks/useStops";
 import { BusRoute } from "@/hooks/useBusSearch";
-import { ArrowRight, CheckCircle2, Download, Loader2, QrCode, Ticket } from "lucide-react";
+import { ArrowRight, Bus, CheckCircle2, Loader2, Pencil, Ticket } from "lucide-react";
+import logo from "@/assets/routex-logo.jpg";
+
+// TODO: replace with the merchant's real UPI VPA + display name
+const UPI_VPA = "routex@upi";
+const UPI_PAYEE_NAME = "RouteX";
 
 interface TicketFlowProps {
   open: boolean;
