@@ -8,7 +8,7 @@ import LanguageToggle from "@/components/LanguageToggle";
 import SearchForm from "@/components/SearchForm";
 import BusResults from "@/components/BusResults";
 import RecentSearches, { RecentSearch } from "@/components/RecentSearches";
-import { Heart, User, LogOut } from "lucide-react";
+import { Heart, User, LogOut, Ticket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/routex-logo.jpg";
 
@@ -67,6 +67,9 @@ const Dashboard = () => {
             <LanguageToggle />
             <button onClick={() => navigate("/favorites")} className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" aria-label={t.nav.favorites}>
               <Heart className="h-4 w-4" />
+            </button>
+            <button onClick={() => navigate("/tickets")} className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" aria-label="My Tickets">
+              <Ticket className="h-4 w-4" />
             </button>
             <button onClick={() => navigate("/profile")} className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" aria-label={t.nav.profile}>
               <User className="h-4 w-4" />
