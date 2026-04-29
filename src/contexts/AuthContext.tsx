@@ -67,6 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // OAuth via Lovable Cloud managed auth
     const result = await lovable.auth.signInWithOAuth(provider, {
       redirect_uri: window.location.origin,
+      extraParams: provider === "google" ? { prompt: "select_account" } : undefined,
     });
 
     if (result.error) {
