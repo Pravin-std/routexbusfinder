@@ -8,6 +8,7 @@ import { BusRoute } from "@/hooks/useBusSearch";
 import { ArrowRight, Bus, CheckCircle2, Copy, Loader2, Pencil, Ticket, X } from "lucide-react";
 import QRCode from "qrcode";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/routex-logo.jpg";
 
 // TODO: replace with the merchant's real UPI VPA + display name
@@ -144,10 +145,30 @@ const TicketFlow: React.FC<TicketFlowProps> = ({ open, onClose, bus }) => {
       } catch {
         /* ignore */
       }
+      // Save to backend so it shows up in My Tickets across devices
+      if (user?.id) {
+        void supabase.from("tickets").insert({
+          user_id: user.id,
+          ticket_code: t.ticketId,
+          passenger_name: t.passenger,
+          bus_route_id: bus.id,
+          bus_number: t.busNumber,
+          bus_name: t.busName,
+          from_id: fromId,
+          to_id: toId,
+          from_name: t.fromName,
+          to_name: t.toName,
+          departure: t.departure,
+          arrival: t.arrival,
+          price: t.price,
+          status: "paid",
+          issued_at: t.issuedAt,
+        });
+      }
       setStep("ticket");
     }, 1400);
     return () => clearTimeout(timer);
-  }, [step, bus, fromName, toName, passengerName, estimatedDeparture, segmentPrice]);
+  }, [step, bus, fromName, toName, passengerName, estimatedDeparture, segmentPrice, user?.id, fromId, toId]);
 
   const issuedDate = useMemo(() => {
     if (!ticket) return "";

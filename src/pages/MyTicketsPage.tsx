@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Ticket as TicketIcon } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { TICKETS_STORAGE_KEY, type SavedTicket } from "@/components/TicketFlow";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import LanguageToggle from "@/components/LanguageToggle";
 import logo from "@/assets/routex-logo.jpg";
 
@@ -16,16 +18,53 @@ const formatTime12 = (time24: string) => {
 const MyTicketsPage = () => {
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
+  const { user } = useAuth();
   const [tickets, setTickets] = useState<SavedTicket[]>([]);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(TICKETS_STORAGE_KEY);
-      setTickets(raw ? JSON.parse(raw) : []);
-    } catch {
-      setTickets([]);
+    const loadLocal = (): SavedTicket[] => {
+      try {
+        const raw = localStorage.getItem(TICKETS_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    };
+
+    if (!user?.id) {
+      setTickets(loadLocal());
+      return;
     }
-  }, []);
+
+    (async () => {
+      const { data, error } = await supabase
+        .from("tickets")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("issued_at", { ascending: false });
+      if (error || !data) {
+        setTickets(loadLocal());
+        return;
+      }
+      const mapped: SavedTicket[] = data.map((r) => ({
+        ticketId: r.ticket_code,
+        passenger: r.passenger_name,
+        fromName: r.from_name,
+        toName: r.to_name,
+        busNumber: r.bus_number,
+        busName: r.bus_name,
+        departure: r.departure,
+        arrival: r.arrival,
+        price: r.price,
+        issuedAt: r.issued_at,
+      }));
+      // Merge any local tickets not yet in DB (e.g. guest-created)
+      const local = loadLocal();
+      const ids = new Set(mapped.map((m) => m.ticketId));
+      const merged = [...mapped, ...local.filter((l) => !ids.has(l.ticketId))];
+      setTickets(merged);
+    })();
+  }, [user?.id]);
 
   return (
     <div className="min-h-screen bg-background">

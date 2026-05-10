@@ -3,12 +3,14 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import LanguageToggle from "@/components/LanguageToggle";
-import { ArrowLeft, User, Mail, Globe, LogOut } from "lucide-react";
+import { ArrowLeft, User, Mail, Globe, LogOut, ShieldCheck } from "lucide-react";
+import { useUserRole } from "@/hooks/useUserRole";
 
 const ProfilePage = () => {
   const { t, lang, setLang } = useLanguage();
   const { user, updateUser, logout } = useAuth();
   const navigate = useNavigate();
+  const { data: role } = useUserRole();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(user?.name || "");
 
@@ -87,6 +89,15 @@ const ProfilePage = () => {
         >
           <LogOut className="h-4 w-4" /> {t.nav.logout}
         </button>
+
+        {role?.isAdmin && (
+          <button
+            onClick={() => navigate("/admin")}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-primary bg-primary/5 px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+          >
+            <ShieldCheck className="h-4 w-4" /> Admin · Add Bus Route
+          </button>
+        )}
       </main>
     </div>
   );
