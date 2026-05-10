@@ -218,19 +218,32 @@ const TicketFlow: React.FC<TicketFlowProps> = ({ open, onClose, bus }) => {
       return;
     }
 
-    // Android: app-specific scheme works.
+    // Android: use Chrome Intent URLs to force-open the specific app.
     launchedRef.current = true;
     const upiUrl = buildUpiUrl();
-    const primary =
-      app === "gpay"
-        ? `tez://upi/pay?${upiUrl.split("?")[1]}`
-        : `phonepe://pay?${upiUrl.split("?")[1]}`;
-    window.location.href = primary;
-    setTimeout(() => {
+    const query = upiUrl.split("?")[1];
+    const pkg = app === "gpay" ? "com.google.android.apps.nbu.paisa.user" : "com.phonepe.app";
+    const intentUrl =
+      `intent://pay?${query}#Intent;scheme=upi;package=${pkg};end`;
+
+    // Try the targeted app first.
+    window.location.href = intentUrl;
+
+    // Fallback 1: generic upi:// (lets user pick any UPI app) after 700ms.
+    const t1 = window.setTimeout(() => {
       if (document.visibilityState === "visible") {
         window.location.href = upiUrl;
       }
-    }, 800);
+    }, 700);
+
+    // Fallback 2: if still on page after 2s, show QR so they can pay anyway.
+    window.setTimeout(() => {
+      if (document.visibilityState === "visible") {
+        window.clearTimeout(t1);
+        launchedRef.current = false;
+        void showQrPayment();
+      }
+    }, 2000);
   };
 
   const copyVpa = async () => {
