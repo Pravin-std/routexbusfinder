@@ -79,10 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return;
     }
 
-    if (result.redirected) {
-      // Browser will redirect to provider — just return
-      return;
-    }
+
     // Session is set automatically by onAuthStateChange
   }, []);
 
