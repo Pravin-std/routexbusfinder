@@ -101,3 +101,8 @@
     box-shadow: 0 8px 24px -4px hsl(var(--foreground) / 0.12);
   }
 }
+
+/* Hide Lovable badge injected on hosted versions */
+#lovable-badge {
+  display: none !important;
+}
