@@ -102,7 +102,4 @@
   }
 }
 
-/* Hide Lovable badge injected on hosted versions */
-#lovable-badge {
-  display: none !important;
-}
+
