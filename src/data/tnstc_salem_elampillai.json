@@ -1,0 +1,274 @@
+{
+  "routes": [
+    {
+      "id": "R_SLM_ELP_01",
+      "route_name": "Salem to Elampillai (via Veerapandi)",
+      "source": "S_01",
+      "destination": "S_11",
+      "total_distance_km": 25.5,
+      "estimated_duration_mins": 55,
+      "base_frequency_mins": 15
+    },
+    {
+      "id": "R_SLM_ELP_02",
+      "route_name": "Salem to Elampillai (Direct/Express)",
+      "source": "S_01",
+      "destination": "S_11",
+      "total_distance_km": 23.0,
+      "estimated_duration_mins": 40,
+      "base_frequency_mins": 30
+    }
+  ],
+  "route_variants": [
+    {
+      "id": "RV_01",
+      "route_id": "R_SLM_ELP_01",
+      "variant_name": "Regular Stops",
+      "stops_count": 11
+    },
+    {
+      "id": "RV_02",
+      "route_id": "R_SLM_ELP_02",
+      "variant_name": "Limited Stops",
+      "stops_count": 5
+    }
+  ],
+  "stops": [
+    {
+      "id": "S_01",
+      "stop_name": "Salem New Bus Stand",
+      "latitude": 11.6669,
+      "longitude": 78.1360,
+      "landmark": "Near Omalur Main Road"
+    },
+    {
+      "id": "S_02",
+      "stop_name": "Old Bus Stand",
+      "latitude": 11.6521,
+      "longitude": 78.1578,
+      "landmark": "Salem Town Center"
+    },
+    {
+      "id": "S_03",
+      "stop_name": "Kondalampatti Bypass",
+      "latitude": 11.6215,
+      "longitude": 78.1256,
+      "landmark": "NH44 Junction"
+    },
+    {
+      "id": "S_04",
+      "stop_name": "Kondalampatti Roundana",
+      "latitude": 11.6189,
+      "longitude": 78.1234,
+      "landmark": "Kondalampatti Circle"
+    },
+    {
+      "id": "S_05",
+      "stop_name": "Chettichavadi",
+      "latitude": 11.6102,
+      "longitude": 78.1150,
+      "landmark": "Chettichavadi Temple"
+    },
+    {
+      "id": "S_06",
+      "stop_name": "Veerapandi Pirivu",
+      "latitude": 11.5955,
+      "longitude": 78.0988,
+      "landmark": "Veerapandi Turn"
+    },
+    {
+      "id": "S_07",
+      "stop_name": "Veerapandi",
+      "latitude": 11.5850,
+      "longitude": 78.0900,
+      "landmark": "Veerapandi Govt Hospital"
+    },
+    {
+      "id": "S_08",
+      "stop_name": "Poolavari Pirivu",
+      "latitude": 11.5801,
+      "longitude": 78.0650,
+      "landmark": "Poolavari Junction"
+    },
+    {
+      "id": "S_09",
+      "stop_name": "Poolavari",
+      "latitude": 11.5750,
+      "longitude": 78.0550,
+      "landmark": "Poolavari Lake"
+    },
+    {
+      "id": "S_10",
+      "stop_name": "Thevur",
+      "latitude": 11.5700,
+      "longitude": 78.0350,
+      "landmark": "Thevur Main Road"
+    },
+    {
+      "id": "S_11",
+      "stop_name": "Elampillai",
+      "latitude": 11.5833,
+      "longitude": 78.0000,
+      "landmark": "Elampillai Market"
+    }
+  ],
+  "buses": [
+    {
+      "id": "B_13A",
+      "bus_number": "13A",
+      "bus_type": "TNSTC Town Bus",
+      "operator": "TNSTC Salem",
+      "route_variant_id": "RV_01",
+      "first_bus": "04:30",
+      "last_bus": "22:15",
+      "frequency_morning": "Every 15 mins",
+      "frequency_afternoon": "Every 25 mins",
+      "frequency_evening": "Every 15 mins",
+      "live_status": "Running On Time",
+      "crowd_level": "High (Peak)"
+    },
+    {
+      "id": "B_13",
+      "bus_number": "13",
+      "bus_type": "TNSTC Town Bus",
+      "operator": "TNSTC Salem",
+      "route_variant_id": "RV_01",
+      "first_bus": "05:00",
+      "last_bus": "21:30",
+      "frequency_morning": "Every 20 mins",
+      "frequency_afternoon": "Every 30 mins",
+      "frequency_evening": "Every 20 mins",
+      "live_status": "Delayed 5 mins",
+      "crowd_level": "Medium"
+    },
+    {
+      "id": "B_M1",
+      "bus_number": "M-1",
+      "bus_type": "Mini Bus",
+      "operator": "Kaveri Travels",
+      "route_variant_id": "RV_01",
+      "first_bus": "06:00",
+      "last_bus": "20:00",
+      "frequency_morning": "Every 45 mins",
+      "frequency_afternoon": "Every 1 hour",
+      "frequency_evening": "Every 45 mins",
+      "live_status": "Running On Time",
+      "crowd_level": "Low"
+    },
+    {
+      "id": "B_PVT1",
+      "bus_number": "Sree Balaji",
+      "bus_type": "Private Bus",
+      "operator": "Sree Balaji Transports",
+      "route_variant_id": "RV_01",
+      "first_bus": "05:15",
+      "last_bus": "21:45",
+      "frequency_morning": "Every 30 mins",
+      "frequency_afternoon": "Every 40 mins",
+      "frequency_evening": "Every 30 mins",
+      "live_status": "Running On Time",
+      "crowd_level": "High"
+    },
+    {
+      "id": "B_EXP",
+      "bus_number": "13 EXP",
+      "bus_type": "Express Local",
+      "operator": "TNSTC Salem",
+      "route_variant_id": "RV_02",
+      "first_bus": "07:00",
+      "last_bus": "19:00",
+      "frequency_morning": "Every 1 hour",
+      "frequency_afternoon": "Every 2 hours",
+      "frequency_evening": "Every 1 hour",
+      "live_status": "Running On Time",
+      "crowd_level": "Medium"
+    }
+  ],
+  "stop_timings": [
+    { "bus_id": "B_13A", "stop_id": "S_01", "stop_order": 1, "estimated_arrival": "10:00", "departure_time": "10:05", "distance_from_start": 0 },
+    { "bus_id": "B_13A", "stop_id": "S_02", "stop_order": 2, "estimated_arrival": "10:12", "departure_time": "10:14", "distance_from_start": 3.2 },
+    { "bus_id": "B_13A", "stop_id": "S_03", "stop_order": 3, "estimated_arrival": "10:22", "departure_time": "10:23", "distance_from_start": 7.5 },
+    { "bus_id": "B_13A", "stop_id": "S_04", "stop_order": 4, "estimated_arrival": "10:25", "departure_time": "10:27", "distance_from_start": 8.0 },
+    { "bus_id": "B_13A", "stop_id": "S_05", "stop_order": 5, "estimated_arrival": "10:32", "departure_time": "10:33", "distance_from_start": 10.5 },
+    { "bus_id": "B_13A", "stop_id": "S_06", "stop_order": 6, "estimated_arrival": "10:40", "departure_time": "10:41", "distance_from_start": 13.0 },
+    { "bus_id": "B_13A", "stop_id": "S_07", "stop_order": 7, "estimated_arrival": "10:45", "departure_time": "10:47", "distance_from_start": 15.5 },
+    { "bus_id": "B_13A", "stop_id": "S_08", "stop_order": 8, "estimated_arrival": "10:52", "departure_time": "10:53", "distance_from_start": 18.2 },
+    { "bus_id": "B_13A", "stop_id": "S_09", "stop_order": 9, "estimated_arrival": "10:58", "departure_time": "10:59", "distance_from_start": 20.0 },
+    { "bus_id": "B_13A", "stop_id": "S_10", "stop_order": 10, "estimated_arrival": "11:05", "departure_time": "11:06", "distance_from_start": 22.5 },
+    { "bus_id": "B_13A", "stop_id": "S_11", "stop_order": 11, "estimated_arrival": "11:15", "departure_time": "11:20", "distance_from_start": 25.5 }
+  ],
+  "fares": [
+    {
+      "source_stop_id": "S_01",
+      "dest_stop_id": "S_04",
+      "source_name": "Salem New Bus Stand",
+      "dest_name": "Kondalampatti Roundana",
+      "bus_type": "TNSTC Town Bus",
+      "fare_amount": 8
+    },
+    {
+      "source_stop_id": "S_01",
+      "dest_stop_id": "S_07",
+      "source_name": "Salem New Bus Stand",
+      "dest_name": "Veerapandi",
+      "bus_type": "TNSTC Town Bus",
+      "fare_amount": 12
+    },
+    {
+      "source_stop_id": "S_01",
+      "dest_stop_id": "S_09",
+      "source_name": "Salem New Bus Stand",
+      "dest_name": "Poolavari",
+      "bus_type": "TNSTC Town Bus",
+      "fare_amount": 16
+    },
+    {
+      "source_stop_id": "S_01",
+      "dest_stop_id": "S_11",
+      "source_name": "Salem New Bus Stand",
+      "dest_name": "Elampillai",
+      "bus_type": "TNSTC Town Bus",
+      "fare_amount": 22
+    },
+    {
+      "source_stop_id": "S_01",
+      "dest_stop_id": "S_11",
+      "source_name": "Salem New Bus Stand",
+      "dest_name": "Elampillai",
+      "bus_type": "Mini Bus",
+      "fare_amount": 25
+    },
+    {
+      "source_stop_id": "S_01",
+      "dest_stop_id": "S_11",
+      "source_name": "Salem New Bus Stand",
+      "dest_name": "Elampillai",
+      "bus_type": "Private Bus",
+      "fare_amount": 25
+    },
+    {
+      "source_stop_id": "S_01",
+      "dest_stop_id": "S_11",
+      "source_name": "Salem New Bus Stand",
+      "dest_name": "Elampillai",
+      "bus_type": "Express Local",
+      "fare_amount": 30
+    },
+    {
+      "source_stop_id": "S_04",
+      "dest_stop_id": "S_11",
+      "source_name": "Kondalampatti Roundana",
+      "dest_name": "Elampillai",
+      "bus_type": "TNSTC Town Bus",
+      "fare_amount": 14
+    },
+    {
+      "source_stop_id": "S_07",
+      "dest_stop_id": "S_11",
+      "source_name": "Veerapandi",
+      "dest_name": "Elampillai",
+      "bus_type": "TNSTC Town Bus",
+      "fare_amount": 10
+    }
+  ]
+}
