@@ -91,6 +91,13 @@ export const busRoutes: BusRoute[] = [
 
   // Chennai → Kanyakumari
   { id: "20", busNumber: "SETC 999", busName: "Kumari Express", fromId: "chennai", toId: "kanyakumari", departure: "18:00", arrival: "08:00", durationMinutes: 840, price: 750, type: "direct", status: "onTime", busType: "ac" },
+
+  // Salem → Elampillai
+  { id: "37", busNumber: "13A", busName: "Salem-Elampillai", fromId: "salem-new", toId: "elampillai", departure: "04:30", arrival: "05:25", durationMinutes: 55, price: 22, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["salem-old", "kondalampatti-bypass", "kondalampatti-roundana", "chettichavadi", "veerapandi-pirivu", "veerapandi", "poolavari-pirivu", "poolavari", "thevur"] },
+  { id: "38", busNumber: "13", busName: "Salem-Elampillai", fromId: "salem-new", toId: "elampillai", departure: "05:00", arrival: "05:55", durationMinutes: 55, price: 22, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["salem-old", "kondalampatti-bypass", "kondalampatti-roundana", "chettichavadi", "veerapandi-pirivu", "veerapandi", "poolavari-pirivu", "poolavari", "thevur"] },
+  { id: "39", busNumber: "M-1", busName: "Salem-Elampillai", fromId: "salem-new", toId: "elampillai", departure: "06:00", arrival: "06:50", durationMinutes: 50, price: 25, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["salem-old", "kondalampatti-bypass", "kondalampatti-roundana", "chettichavadi", "veerapandi-pirivu", "veerapandi", "poolavari-pirivu", "poolavari", "thevur"] },
+  { id: "40", busNumber: "Sree Balaji", busName: "Salem-Elampillai", fromId: "salem-new", toId: "elampillai", departure: "05:15", arrival: "06:05", durationMinutes: 50, price: 25, type: "stops", status: "onTime", busType: "ordinary", intermediateStops: ["salem-old", "kondalampatti-bypass", "kondalampatti-roundana", "chettichavadi", "veerapandi-pirivu", "veerapandi", "poolavari-pirivu", "poolavari", "thevur"] },
+  { id: "41", busNumber: "13 EXP", busName: "Salem-Elampillai", fromId: "salem-new", toId: "elampillai", departure: "07:00", arrival: "07:40", durationMinutes: 40, price: 30, type: "stops", status: "onTime", busType: "express", intermediateStops: ["salem-old", "kondalampatti-bypass", "kondalampatti-roundana", "chettichavadi", "veerapandi-pirivu", "veerapandi", "poolavari-pirivu", "poolavari", "thevur"] },
 ];
 
 // Helper to find buses between two stops (matches exact or parent stop prefix)
@@ -102,4 +109,28 @@ export const findBuses = (fromId: string, toId: string): BusRoute[] => {
   return busRoutes.filter(
     (b) => matchStop(b.fromId, fromId) && matchStop(b.toId, toId)
   );
+};
+
+export const getRouteStops = (route: BusRoute): string[] => {
+  if (route.type === "direct") return [route.fromId, route.toId];
+  return [route.fromId, ...(route.intermediateStops || []), route.toId];
+};
+
+export const calculateFare = (route: BusRoute, boardingId: string, droppingId: string): number => {
+  const allStops = getRouteStops(route);
+  
+  // Find indices using exact or parent stop match
+  const startIndex = allStops.findIndex(id => matchStop(id, boardingId));
+  const endIndex = allStops.findIndex(id => matchStop(id, droppingId));
+  
+  if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+    const diff = endIndex - startIndex;
+    // Salem -> Elampillai diff is 10. If we need it to be 22 (for 11 stops), we use route.price.
+    // If it's a sub-route, we use diff * 2.
+    if (startIndex === 0 && endIndex === allStops.length - 1) {
+      return route.price;
+    }
+    return diff * 2;
+  }
+  return route.price;
 };

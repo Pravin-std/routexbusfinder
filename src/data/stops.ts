@@ -82,4 +82,11 @@ export const stops: BusStop[] = [
   { id: "kallakurichi", nameEn: "Kallakurichi Bus Stand", nameTa: "கள்ளக்குறிச்சி பஸ் நிலையம்", district: "Kallakurichi" },
   { id: "komarapalayam", nameEn: "Komarapalayam", nameTa: "கோமாரபாளையம்", district: "Namakkal" },
   { id: "tiruchengode", nameEn: "Tiruchengode Bus Stand", nameTa: "திருச்செங்கோடு பஸ் நிலையம்", district: "Namakkal" },
+  { id: "kondalampatti-bypass", nameEn: "Kondalampatti Bypass", nameTa: "கொண்டலாம்பட்டி பைபாஸ்", district: "Salem" },
+  { id: "kondalampatti-roundana", nameEn: "Kondalampatti Roundana", nameTa: "கொண்டலாம்பட்டி ரவுண்டானா", district: "Salem" },
+  { id: "chettichavadi", nameEn: "Chettichavadi", nameTa: "செட்டிசாவடி", district: "Salem" },
+  { id: "veerapandi-pirivu", nameEn: "Veerapandi Pirivu", nameTa: "வீரபாண்டி பிரிவு", district: "Salem" },
+  { id: "poolavari-pirivu", nameEn: "Poolavari Pirivu", nameTa: "பூலாவரி பிரிவு", district: "Salem" },
+  { id: "poolavari", nameEn: "Poolavari", nameTa: "பூலாவரி", district: "Salem" },
+  { id: "elampillai", nameEn: "Elampillai", nameTa: "எளம்பிள்ளை", district: "Salem" },
 ];
