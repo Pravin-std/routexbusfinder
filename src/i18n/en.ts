@@ -8,7 +8,7 @@ export const en = {
     title: "Welcome",
     subtitle: "Sign in to find buses across Tamil Nadu",
     google: "Continue with Google",
-    apple: "Continue with Apple",
+
     guest: "Continue as Guest",
     terms: "By continuing, you agree to our Terms & Privacy Policy",
   },

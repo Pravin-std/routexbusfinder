@@ -97,6 +97,6 @@ const BusResults = memo(({ buses, onSaveRoute, savedRouteIds = new Set() }: BusR
       </div>
     </div>
   );
-};
+});
 
 export default BusResults;

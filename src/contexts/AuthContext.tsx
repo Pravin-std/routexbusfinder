@@ -7,14 +7,14 @@ export interface User {
   name: string;
   email: string;
   avatar?: string;
-  provider: "google" | "apple" | "guest";
+  provider: "google" | "guest";
 }
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (provider: "google" | "apple" | "guest") => Promise<void>;
+  login: (provider: "google" | "guest") => Promise<void>;
   logout: () => Promise<void>;
   updateUser: (data: Partial<User>) => void;
 }
@@ -26,7 +26,7 @@ const mapSupabaseUser = (su: SupabaseUser): User => ({
   name: su.user_metadata?.full_name || su.user_metadata?.name || su.email?.split("@")[0] || "User",
   email: su.email || "",
   avatar: su.user_metadata?.avatar_url,
-  provider: (su.app_metadata?.provider as "google" | "apple") || "guest",
+  provider: (su.app_metadata?.provider as "google") || "guest",
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const login = useCallback(async (provider: "google" | "apple" | "guest") => {
+  const login = useCallback(async (provider: "google" | "guest") => {
     if (provider === "guest") {
       // Sign in anonymously
       const { error } = await supabase.auth.signInAnonymously();
