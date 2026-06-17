@@ -8,7 +8,7 @@ import LanguageToggle from "@/components/LanguageToggle";
 import SearchForm from "@/components/SearchForm";
 import BusResults from "@/components/BusResults";
 import RecentSearches, { RecentSearch } from "@/components/RecentSearches";
-import { Heart, User, LogOut, Ticket } from "lucide-react";
+import { Heart, User, LogOut, Ticket, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/routex-logo.jpg";
 
@@ -20,6 +20,7 @@ const Dashboard = () => {
   const { savedRouteIds, toggleFavorite } = useFavorites();
 
   const [currentSearch, setCurrentSearch] = useState<{ from: string; to: string } | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [recentSearches, setRecentSearches] = useState<RecentSearch[]>(() => {
     const saved = localStorage.getItem("tn-bus-recent");
     return saved ? JSON.parse(saved) : [];
@@ -57,16 +58,27 @@ const Dashboard = () => {
 
   return (
     <div 
-      className="min-h-screen bg-background bg-cover bg-center bg-fixed bg-no-repeat"
-      style={{ backgroundImage: "url('/hero-bg.png')" }}
+      className="min-h-screen mobile-bg lg:bg-background bg-cover bg-center bg-fixed bg-no-repeat lg:bg-[url('/hero-bg.png')]"
     >
-      <header className="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur-md">
+      <div className="mobile-bg-overlay lg:hidden"></div>
+      <div className="mobile-route-line lg:hidden"></div>
+      <div className="mobile-route-line-2 lg:hidden" style={{ animationDelay: '2s' }}></div>
+
+      <header className="sticky top-0 z-30 border-b border-white/10 lg:border-border bg-card/80 lg:bg-card/80 backdrop-blur-md">
         <div className="container flex items-center justify-between py-3">
           <div className="flex items-center gap-2">
             <img src={logo} alt="RouteX" className="h-7 w-7 rounded-md object-contain" />
             <span className="text-sm font-bold text-foreground">{t.app.name}</span>
           </div>
-          <div className="flex items-center gap-2">
+          
+          <div className="lg:hidden flex items-center gap-2">
+            <LanguageToggle />
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-foreground" aria-label="Menu">
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-2">
             <LanguageToggle />
             <button onClick={() => navigate("/favorites")} className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground" aria-label={t.nav.favorites}>
               <Heart className="h-4 w-4" />
@@ -82,14 +94,38 @@ const Dashboard = () => {
             </button>
           </div>
         </div>
+        
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden border-t border-white/10 bg-card/95 backdrop-blur-md absolute w-full left-0 animate-fade-in shadow-xl">
+            <div className="flex flex-col p-4 gap-2">
+              <button onClick={() => { setIsMobileMenuOpen(false); navigate("/favorites"); }} className="flex min-h-[44px] items-center gap-3 rounded-lg px-4 py-2 hover:bg-secondary text-foreground">
+                <Heart className="h-5 w-5" />
+                <span className="font-medium">{t.nav.favorites}</span>
+              </button>
+              <button onClick={() => { setIsMobileMenuOpen(false); navigate("/tickets"); }} className="flex min-h-[44px] items-center gap-3 rounded-lg px-4 py-2 hover:bg-secondary text-foreground">
+                <Ticket className="h-5 w-5" />
+                <span className="font-medium">My Tickets</span>
+              </button>
+              <button onClick={() => { setIsMobileMenuOpen(false); navigate("/profile"); }} className="flex min-h-[44px] items-center gap-3 rounded-lg px-4 py-2 hover:bg-secondary text-foreground">
+                <User className="h-5 w-5" />
+                <span className="font-medium">{t.nav.profile}</span>
+              </button>
+              <button onClick={async () => { await logout(); navigate("/"); }} className="flex min-h-[44px] items-center gap-3 rounded-lg px-4 py-2 hover:bg-secondary text-destructive mt-2">
+                <LogOut className="h-5 w-5" />
+                <span className="font-medium">{t.nav.logout}</span>
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
-      <main className="container max-w-lg py-6">
+      <main className="container max-w-lg py-6 relative z-10">
         <div className="mb-4">
-          <h1 className="text-xl font-bold text-foreground">
+          <h1 className="text-xl font-bold !text-white lg:!text-foreground">
             {lang === "ta" ? "வணக்கம்" : "Hello"}, {user?.name?.split(" ")[0] || "User"} 👋
           </h1>
-          <p className="text-sm text-muted-foreground">{t.app.tagline}</p>
+          <p className="text-sm mobile-glass-muted lg:!text-muted-foreground">{t.app.tagline}</p>
         </div>
 
         <SearchForm onSearch={handleSearch} />
@@ -100,11 +136,11 @@ const Dashboard = () => {
 
         {currentSearch && (
           <>
-            <div className="mt-4 flex items-center gap-2">
-              <button onClick={() => setCurrentSearch(null)} className="text-xs font-medium text-primary hover:underline">
-                ← {t.common.back}
+            <div className="mt-4 flex items-center gap-2 mobile-glass p-3 lg:bg-transparent lg:p-0 rounded-lg lg:border-none border border-white/20">
+              <button onClick={() => setCurrentSearch(null)} className="flex items-center justify-center min-h-[44px] min-w-[44px] rounded-lg lg:min-h-0 lg:min-w-0 lg:rounded-none bg-black/20 lg:bg-transparent text-white lg:text-primary hover:underline">
+                ←
               </button>
-              <span className="text-xs text-muted-foreground">
+              <span className="text-sm lg:text-xs font-medium !text-white lg:!text-muted-foreground ml-2">
                 {getStopName(currentSearch.from)} → {getStopName(currentSearch.to)}
               </span>
             </div>

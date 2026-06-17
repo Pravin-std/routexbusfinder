@@ -14,17 +14,71 @@
   <meta property="og:type" content="website" />
   <meta property="og:image" content="/routex-logo.jpg" />
   <link rel="icon" type="image/jpeg" href="/routex-logo.jpg" />
-  <link rel="apple-touch-icon" href="/routex-logo.jpg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="/routex-logo.jpg" />
   
   <link rel="preload" as="image" href="/hero-bg.png" />
+  <style>
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #1e293b, #2563eb);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+    #splash-screen img {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      animation: pulse 2s infinite;
+    }
+    #splash-screen h1 {
+      color: white;
+      font-family: system-ui, -apple-system, sans-serif;
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.9; }
+      50% { transform: scale(1.05); opacity: 1; }
+      100% { transform: scale(0.95); opacity: 0.9; }
+    }
+  </style>
 </head>
 
 <body>
+  <div id="splash-screen">
+    <img src="/routex-logo.jpg" alt="RouteX Logo" />
+    <h1>RouteX</h1>
+  </div>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <script>
+    // Hide splash screen when React mounts
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        if (splash) {
+          splash.style.opacity = '0';
+          setTimeout(() => splash.remove(), 500);
+        }
+      }, 500);
+    });
+  </script>
 </body>
 
 </html>

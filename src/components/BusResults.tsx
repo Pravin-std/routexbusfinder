@@ -53,8 +53,8 @@ const BusResults = memo(({ buses, onSaveRoute, savedRouteIds = new Set() }: BusR
   if (buses.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-center">
-        <p className="text-lg font-semibold text-foreground">{t.results.noBuses}</p>
-        <p className="mt-1 text-sm text-muted-foreground">{t.results.tryAnother}</p>
+        <p className="text-lg font-semibold !text-white lg:!text-foreground">{t.results.noBuses}</p>
+        <p className="mt-1 text-sm mobile-glass-muted lg:!text-muted-foreground">{t.results.tryAnother}</p>
       </div>
     );
   }
@@ -62,28 +62,28 @@ const BusResults = memo(({ buses, onSaveRoute, savedRouteIds = new Set() }: BusR
   return (
     <div className="mt-6">
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-foreground">
-          {t.results.title} <span className="text-sm font-normal text-muted-foreground">({sorted.length})</span>
+        <h2 className="text-lg font-bold !text-white lg:!text-foreground">
+          {t.results.title} <span className="text-sm font-normal mobile-glass-muted lg:!text-muted-foreground">({sorted.length})</span>
         </h2>
-        <button onClick={() => setShowFilters(!showFilters)} className="flex items-center gap-1 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-medium text-card-foreground transition-colors hover:bg-secondary">
-          <SlidersHorizontal className="h-3.5 w-3.5" />
+        <button onClick={() => setShowFilters(!showFilters)} className="flex items-center gap-1 rounded-lg border border-white/20 lg:border-border mobile-glass lg:bg-card px-4 py-2 lg:px-3 lg:py-1.5 text-sm lg:text-xs font-medium !text-white lg:!text-card-foreground transition-colors hover:bg-white/20 lg:hover:bg-secondary min-h-[44px] lg:min-h-0">
+          <SlidersHorizontal className="h-4 w-4 lg:h-3.5 lg:w-3.5" />
           {t.results.filterBy}
         </button>
       </div>
 
       {showFilters && (
-        <div className="mb-4 animate-fade-in rounded-lg border border-border bg-card p-3">
+        <div className="mb-4 animate-fade-in rounded-lg border border-white/20 lg:border-border mobile-glass lg:bg-card p-4 lg:p-3">
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-muted-foreground">{t.results.sortBy}:</span>
+              <span className="text-sm lg:text-xs font-medium mobile-glass-muted lg:!text-muted-foreground">{t.results.sortBy}:</span>
               {(["departure", "price", "duration"] as SortOption[]).map((opt) => (
-                <button key={opt} onClick={() => setSortBy(opt)} className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${sortBy === opt ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground hover:bg-muted"}`}>
+                <button key={opt} onClick={() => setSortBy(opt)} className={`rounded-full px-4 py-2 lg:px-3 lg:py-1 text-sm lg:text-xs font-medium transition-colors min-h-[44px] lg:min-h-0 ${sortBy === opt ? "bg-primary text-primary-foreground" : "bg-white/10 lg:bg-secondary text-white lg:text-secondary-foreground hover:bg-white/20 lg:hover:bg-muted"}`}>
                   {t.results[`sort${opt.charAt(0).toUpperCase() + opt.slice(1)}` as keyof typeof t.results] as string}
                 </button>
               ))}
             </div>
-            <label className="flex items-center gap-2 text-xs font-medium text-card-foreground">
-              <input type="checkbox" checked={directOnly} onChange={(e) => setDirectOnly(e.target.checked)} className="h-4 w-4 rounded border-border accent-primary" />
+            <label className="flex items-center gap-2 text-sm lg:text-xs font-medium !text-white lg:!text-card-foreground min-h-[44px] lg:min-h-0">
+              <input type="checkbox" checked={directOnly} onChange={(e) => setDirectOnly(e.target.checked)} className="h-5 w-5 lg:h-4 lg:w-4 rounded border-border accent-primary" />
               {t.results.directOnly}
             </label>
           </div>

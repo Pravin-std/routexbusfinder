@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Index from "./pages/Index.tsx";
+import { InstallPrompt } from "@/components/InstallPrompt";
 
 const FavoritesPage = React.lazy(() => import("./pages/FavoritesPage.tsx"));
 const ProfilePage = React.lazy(() => import("./pages/ProfilePage.tsx"));
@@ -29,6 +30,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
+          <InstallPrompt />
           <BrowserRouter>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>

@@ -42,7 +42,7 @@ const BusCard = memo(({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) =>
   const busTypeLabel: Record<string, string> = { ordinary: "Ordinary", express: "Express", superDeluxe: "Super Deluxe", ac: "A/C" };
 
   return (
-    <div className="animate-fade-in rounded-xl border border-border bg-card p-4 bus-card-shadow transition-shadow hover:bus-card-shadow-hover">
+    <div className="animate-fade-in rounded-xl border border-white/20 lg:border-border mobile-glass lg:bg-card p-4 bus-card-shadow transition-shadow hover:bus-card-shadow-hover lg:!text-foreground">
       {highlightLabel && (
         <span className={`mb-2 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${highlightColor}`}>
           {highlight === "cheapest" && <BadgeIndianRupee className="h-3 w-3" />}
@@ -54,12 +54,12 @@ const BusCard = memo(({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) =>
 
       <div className="flex items-start justify-between">
         <div>
-          <h3 className="text-sm font-bold text-foreground">{bus.bus_number}</h3>
-          <p className="text-xs text-muted-foreground">{bus.bus_name} · {busTypeLabel[bus.bus_type] || bus.bus_type}</p>
+          <h3 className="text-sm font-bold !text-white lg:!text-foreground">{bus.bus_number}</h3>
+          <p className="text-xs mobile-glass-muted lg:!text-muted-foreground">{bus.bus_name} · {busTypeLabel[bus.bus_type] || bus.bus_type}</p>
         </div>
         <div className="text-right">
-          <p className="text-lg font-bold text-primary">₹{bus.price}</p>
-          <span className={`inline-flex items-center gap-1 text-xs font-medium ${bus.route_type === "direct" ? "text-success" : "text-muted-foreground"}`}>
+          <p className="text-lg font-bold !text-white lg:!text-primary">₹{bus.price}</p>
+          <span className={`inline-flex items-center gap-1 text-xs font-medium ${bus.route_type === "direct" ? "text-success" : "mobile-glass-muted lg:!text-muted-foreground"}`}>
             {bus.route_type === "direct" ? t.results.direct : t.results.stops}
           </span>
         </div>
@@ -67,20 +67,20 @@ const BusCard = memo(({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) =>
 
       <div className="mt-3 flex items-center gap-3">
         <div className="flex flex-col items-center">
-          <span className="text-sm font-semibold text-foreground">{formatTime12(bus.departure)}</span>
-          <span className="text-[10px] text-muted-foreground">{getStopName(bus.from_id)}</span>
+          <span className="text-sm font-semibold !text-white lg:!text-foreground">{formatTime12(bus.departure)}</span>
+          <span className="text-[10px] mobile-glass-muted lg:!text-muted-foreground">{getStopName(bus.from_id)}</span>
         </div>
         <div className="flex flex-1 flex-col items-center">
-          <span className="text-[10px] text-muted-foreground">{formatDuration(bus.duration_minutes)}</span>
+          <span className="text-[10px] mobile-glass-muted lg:!text-muted-foreground">{formatDuration(bus.duration_minutes)}</span>
           <div className="relative flex w-full items-center">
-            <div className="h-px flex-1 bg-border" />
-            <ArrowRight className="mx-1 h-3 w-3 text-muted-foreground" />
-            <div className="h-px flex-1 bg-border" />
+            <div className="h-px flex-1 bg-white/20 lg:bg-border" />
+            <ArrowRight className="mx-1 h-3 w-3 text-white/50 lg:text-muted-foreground" />
+            <div className="h-px flex-1 bg-white/20 lg:bg-border" />
           </div>
         </div>
         <div className="flex flex-col items-center">
-          <span className="text-sm font-semibold text-foreground">{formatTime12(bus.arrival)}</span>
-          <span className="text-[10px] text-muted-foreground">{getStopName(bus.to_id)}</span>
+          <span className="text-sm font-semibold !text-white lg:!text-foreground">{formatTime12(bus.arrival)}</span>
+          <span className="text-[10px] mobile-glass-muted lg:!text-muted-foreground">{getStopName(bus.to_id)}</span>
         </div>
       </div>
 
@@ -89,13 +89,13 @@ const BusCard = memo(({ bus, highlight, onSaveRoute, isSaved }: BusCardProps) =>
           {bus.status === "delayed" && <AlertTriangle className="h-3 w-3" />}
           {bus.status === "onTime" ? t.results.onTime : t.results.delayed}
         </span>
-        <div className="flex items-center gap-3">
-          <button onClick={() => setShowTicket(true)} className="flex items-center gap-1 rounded-md bg-primary px-2.5 py-1 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90">
-            <Ticket className="h-3 w-3" />
+        <div className="flex items-center gap-2">
+          <button onClick={() => setShowTicket(true)} className="flex items-center justify-center gap-1 rounded-md bg-primary px-4 py-2 lg:px-2.5 lg:py-1 text-sm lg:text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90 min-h-[44px] lg:min-h-0 min-w-[110px] lg:min-w-0">
+            <Ticket className="h-3 w-3 lg:h-3 lg:w-3" />
             Book Ticket
           </button>
           {onSaveRoute && (
-            <button onClick={onSaveRoute} className={`text-xs font-medium transition-colors ${isSaved ? "text-primary" : "text-muted-foreground hover:text-primary"}`}>
+            <button onClick={onSaveRoute} className={`text-sm lg:text-xs font-medium transition-colors flex items-center justify-center min-h-[44px] lg:min-h-0 px-2 lg:px-0 ${isSaved ? "text-primary" : "mobile-glass-muted lg:!text-muted-foreground hover:text-white lg:hover:text-primary"}`}>
               {isSaved ? "★ " + t.favorites.saved : "☆ " + t.favorites.save}
             </button>
           )}

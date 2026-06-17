@@ -58,13 +58,13 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
   };
 
   return (
-    <div className="rounded-xl border border-border bg-card p-4 bus-card-shadow">
+    <div className="rounded-xl border border-white/20 lg:border-border mobile-glass lg:bg-card p-4 bus-card-shadow lg:!text-foreground">
       <div className="flex flex-col gap-3">
         <div ref={fromRef} className="relative">
-          <label className="mb-1 block text-xs font-medium text-muted-foreground">{t.search.from}</label>
-          <div className="flex items-center gap-2 rounded-lg border border-input bg-background px-3 py-2.5">
-            <Search className="h-4 w-4 text-muted-foreground" />
-            <input type="text" value={fromQuery} onChange={(e) => { setFromQuery(e.target.value); setFromId(""); setShowFromSuggestions(true); }} onFocus={() => setShowFromSuggestions(true)} placeholder={t.search.fromPlaceholder} className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground" />
+          <label className="mb-1 block text-xs font-medium !text-white lg:!text-muted-foreground">{t.search.from}</label>
+          <div className="flex items-center gap-2 rounded-lg border mobile-glass-input lg:bg-background lg:border-input px-3 py-2.5 min-h-[48px] lg:min-h-0">
+            <Search className="h-4 w-4 text-white/70 lg:text-muted-foreground" />
+            <input type="text" value={fromQuery} onChange={(e) => { setFromQuery(e.target.value); setFromId(""); setShowFromSuggestions(true); }} onFocus={() => setShowFromSuggestions(true)} placeholder={t.search.fromPlaceholder} className="w-full bg-transparent text-sm !text-white lg:!text-foreground outline-none placeholder:text-white/60 lg:placeholder:text-muted-foreground" />
           </div>
           {showFromSuggestions && fromSuggestions.length > 0 && (
             <div className="absolute left-0 right-0 top-full z-20 mt-1 max-h-48 overflow-y-auto rounded-lg border border-border bg-card shadow-lg">
@@ -78,16 +78,16 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
         </div>
 
         <div className="flex justify-center">
-          <button onClick={handleSwap} className="rounded-full border border-border bg-secondary p-2 text-secondary-foreground transition-colors hover:bg-muted" aria-label={t.search.swap}>
+          <button onClick={handleSwap} className="flex items-center justify-center min-h-[44px] min-w-[44px] lg:min-h-[auto] lg:min-w-[auto] rounded-full border border-white/20 lg:border-border bg-black/20 lg:bg-secondary p-2 text-white lg:text-secondary-foreground transition-colors hover:bg-black/30 lg:hover:bg-muted" aria-label={t.search.swap}>
             <ArrowDownUp className="h-4 w-4" />
           </button>
         </div>
 
         <div ref={toRef} className="relative">
-          <label className="mb-1 block text-xs font-medium text-muted-foreground">{t.search.to}</label>
-          <div className="flex items-center gap-2 rounded-lg border border-input bg-background px-3 py-2.5">
-            <Search className="h-4 w-4 text-muted-foreground" />
-            <input type="text" value={toQuery} onChange={(e) => { setToQuery(e.target.value); setToId(""); setShowToSuggestions(true); }} onFocus={() => setShowToSuggestions(true)} placeholder={t.search.toPlaceholder} className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground" />
+          <label className="mb-1 block text-xs font-medium !text-white lg:!text-muted-foreground">{t.search.to}</label>
+          <div className="flex items-center gap-2 rounded-lg border mobile-glass-input lg:bg-background lg:border-input px-3 py-2.5 min-h-[48px] lg:min-h-0">
+            <Search className="h-4 w-4 text-white/70 lg:text-muted-foreground" />
+            <input type="text" value={toQuery} onChange={(e) => { setToQuery(e.target.value); setToId(""); setShowToSuggestions(true); }} onFocus={() => setShowToSuggestions(true)} placeholder={t.search.toPlaceholder} className="w-full bg-transparent text-sm !text-white lg:!text-foreground outline-none placeholder:text-white/60 lg:placeholder:text-muted-foreground" />
           </div>
           {showToSuggestions && toSuggestions.length > 0 && (
             <div className="absolute left-0 right-0 top-full z-20 mt-1 max-h-48 overflow-y-auto rounded-lg border border-border bg-card shadow-lg">
@@ -102,7 +102,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
 
         {error && <p className="text-center text-xs text-destructive">{error}</p>}
 
-        <button onClick={handleSearch} className="mt-1 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90">
+        <button onClick={handleSearch} className="mt-1 rounded-lg bg-primary px-4 py-3 min-h-[48px] text-sm font-semibold text-primary-foreground transition-colors hover:opacity-90">
           {t.search.find}
         </button>
       </div>
