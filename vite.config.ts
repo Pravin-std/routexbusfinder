@@ -16,7 +16,7 @@ export default defineConfig(() => ({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "hero-bg.png", "routex-logo.jpg", "mobile-bg.png"],
+      includeAssets: ["favicon.png", "apple-touch-icon.png", "hero-bg.png", "icon-1024x1024.png", "mobile-bg.png"],
       manifest: {
         name: "RouteX",
         short_name: "RouteX",
