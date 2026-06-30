@@ -100,9 +100,10 @@ const MyTicketsPage = () => {
                 { dateStyle: "medium", timeStyle: "short" }
               );
               return (
-                <div
+                <button
                   key={ticket.ticketId}
-                  className="animate-fade-in rounded-xl border border-border bg-card p-4 bus-card-shadow"
+                  onClick={() => navigate(`/ticket/${ticket.ticketId}`)}
+                  className="animate-fade-in rounded-xl border border-border bg-card p-4 bus-card-shadow text-left transition-colors hover:bg-secondary/20 w-full"
                 >
                   <div className="flex items-center justify-between">
                     <p className="font-mono text-xs font-bold text-primary">{ticket.ticketId}</p>
@@ -126,7 +127,7 @@ const MyTicketsPage = () => {
                     <span className="font-semibold text-foreground">₹{ticket.price}</span>
                   </div>
                   <p className="mt-1 text-[10px] text-muted-foreground">{issued}</p>
-                </div>
+                </button>
               );
             })}
           </div>

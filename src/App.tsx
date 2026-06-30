@@ -12,6 +12,7 @@ import { InstallPrompt } from "@/components/InstallPrompt";
 const FavoritesPage = React.lazy(() => import("./pages/FavoritesPage.tsx"));
 const ProfilePage = React.lazy(() => import("./pages/ProfilePage.tsx"));
 const MyTicketsPage = React.lazy(() => import("./pages/MyTicketsPage.tsx"));
+const TicketPage = React.lazy(() => import("./pages/TicketPage.tsx"));
 const AdminPage = React.lazy(() => import("./pages/AdminPage.tsx"));
 const NotFound = React.lazy(() => import("./pages/NotFound.tsx"));
 
@@ -38,6 +39,7 @@ const App = () => (
                 <Route path="/favorites" element={<FavoritesPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/tickets" element={<MyTicketsPage />} />
+                <Route path="/ticket/:ticketCode" element={<TicketPage />} />
                 <Route path="/admin" element={<AdminPage />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
