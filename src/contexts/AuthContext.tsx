@@ -38,6 +38,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         setUser(mapSupabaseUser(session.user));
+      } else if (!import.meta.env.DEV) {
+        // Only clear user if not in DEV mode
+        setUser(null);
       } else {
         const guestUser = localStorage.getItem("guest-user");
         setUser(guestUser ? JSON.parse(guestUser) : null);
@@ -49,6 +52,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(mapSupabaseUser(session.user));
+      } else if (import.meta.env.DEV) {
+        // LOCAL DEVELOPMENT BYPASS
+        setUser({ 
+          id: "dev-admin-uuid-1234", 
+          name: "Local Admin", 
+          email: "admin@localhost.dev", 
+          provider: "guest" 
+        });
       } else {
         const guestUser = localStorage.getItem("guest-user");
         if (guestUser) {

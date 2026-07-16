@@ -13,7 +13,18 @@ const FavoritesPage = React.lazy(() => import("./pages/FavoritesPage.tsx"));
 const ProfilePage = React.lazy(() => import("./pages/ProfilePage.tsx"));
 const MyTicketsPage = React.lazy(() => import("./pages/MyTicketsPage.tsx"));
 const TicketPage = React.lazy(() => import("./pages/TicketPage.tsx"));
-const AdminPage = React.lazy(() => import("./pages/AdminPage.tsx"));
+const AdminLayout = React.lazy(() => import("./layouts/AdminLayout.tsx").then(m => ({ default: m.AdminLayout })));
+const Dashboard = React.lazy(() => import("./pages/admin/Dashboard.tsx"));
+const RoutesManager = React.lazy(() => import("./pages/admin/RoutesManager.tsx"));
+const StopsManager = React.lazy(() => import("./pages/admin/StopsManager.tsx"));
+const BusesManager = React.lazy(() => import("./pages/admin/BusesManager.tsx"));
+const SchedulesManager = React.lazy(() => import("./pages/admin/SchedulesManager.tsx"));
+const FaresManager = React.lazy(() => import("./pages/admin/FaresManager.tsx"));
+const BookingsManager = React.lazy(() => import("./pages/admin/BookingsManager.tsx"));
+const PaymentsManager = React.lazy(() => import("./pages/admin/PaymentsManager.tsx"));
+const UsersManager = React.lazy(() => import("./pages/admin/UsersManager.tsx"));
+const FeedbackManager = React.lazy(() => import("./pages/admin/FeedbackManager.tsx"));
+const SettingsManager = React.lazy(() => import("./pages/admin/SettingsManager.tsx"));
 const NotFound = React.lazy(() => import("./pages/NotFound.tsx"));
 
 const queryClient = new QueryClient();
@@ -40,7 +51,19 @@ const App = () => (
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/tickets" element={<MyTicketsPage />} />
                 <Route path="/ticket/:ticketCode" element={<TicketPage />} />
-                <Route path="/admin" element={<AdminPage />} />
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="routes" element={<RoutesManager />} />
+                  <Route path="stops" element={<StopsManager />} />
+                  <Route path="buses" element={<BusesManager />} />
+                  <Route path="schedules" element={<SchedulesManager />} />
+                  <Route path="fares" element={<FaresManager />} />
+                  <Route path="bookings" element={<BookingsManager />} />
+                  <Route path="payments" element={<PaymentsManager />} />
+                  <Route path="users" element={<UsersManager />} />
+                  <Route path="feedback" element={<FeedbackManager />} />
+                  <Route path="settings" element={<SettingsManager />} />
+                </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
