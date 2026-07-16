@@ -6,6 +6,7 @@ import { RainbowTicket } from "@/components/RainbowTicket";
 import type { SavedTicket } from "@/components/TicketFlow";
 import { TICKETS_STORAGE_KEY } from "@/components/TicketFlow";
 import { Button } from "@/components/ui/button";
+import { PhysicalTicketScanner } from "@/components/PhysicalTicketScanner";
 
 const TicketPage = () => {
   const { ticketCode } = useParams<{ ticketCode: string }>();
@@ -130,6 +131,8 @@ const TicketPage = () => {
             />
 
             <div className="flex flex-col gap-3 pt-6">
+              <PhysicalTicketScanner ticketId={ticket.ticketId} />
+              
               <Button asChild variant="default" className="w-full">
                 <Link to="/">Book Another Ticket</Link>
               </Button>

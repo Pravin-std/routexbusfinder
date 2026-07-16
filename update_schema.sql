@@ -85,3 +85,74 @@ BEGIN
         WITH CHECK (public.is_admin());
   END IF;
 END $$;
+
+-- ==========================================
+-- PHYSICAL TICKET SCANNING FEATURE
+-- ==========================================
+
+-- Create ticket_scans table
+CREATE TABLE IF NOT EXISTS public.ticket_scans (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    ticket_id UUID REFERENCES public.tickets(id) ON DELETE SET NULL,
+    ticket_photo_url TEXT NOT NULL,
+    ocr_text TEXT,
+    bus_name TEXT,
+    bus_number TEXT,
+    from_stop TEXT,
+    to_stop TEXT,
+    fare NUMERIC,
+    travel_date DATE,
+    travel_time TEXT,
+    ticket_number TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Enable RLS
+ALTER TABLE public.ticket_scans ENABLE ROW LEVEL SECURITY;
+
+-- Select policies
+DROP POLICY IF EXISTS "Users can view their own ticket scans" ON public.ticket_scans;
+CREATE POLICY "Users can view their own ticket scans" 
+    ON public.ticket_scans FOR SELECT TO authenticated
+    USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS "Admins can view all ticket scans" ON public.ticket_scans;
+CREATE POLICY "Admins can view all ticket scans" 
+    ON public.ticket_scans FOR SELECT TO authenticated
+    USING (public.is_admin());
+
+-- Insert policy
+DROP POLICY IF EXISTS "Users can insert their own ticket scans" ON public.ticket_scans;
+CREATE POLICY "Users can insert their own ticket scans" 
+    ON public.ticket_scans FOR INSERT TO authenticated
+    WITH CHECK (auth.uid() = user_id);
+
+-- Create private bucket and storage policies (using DO to catch errors if bucket insertion fails due to permissions)
+DO $$
+BEGIN
+  INSERT INTO storage.buckets (id, name, public) 
+  VALUES ('ticket-scans', 'ticket-scans', false) 
+  ON CONFLICT (id) DO NOTHING;
+EXCEPTION WHEN OTHERS THEN
+  RAISE NOTICE 'Could not insert bucket, ignoring...';
+END $$;
+
+-- Storage policies for ticket-scans bucket
+DROP POLICY IF EXISTS "Public Read Access on ticket-scans" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can upload to ticket-scans" ON storage.objects;
+DROP POLICY IF EXISTS "Authenticated users can upload to ticket-scans" ON storage.objects;
+DROP POLICY IF EXISTS "Users and admins can view ticket-scans" ON storage.objects;
+
+-- 1. Only authenticated users can upload ticket images
+CREATE POLICY "Authenticated users can upload to ticket-scans" 
+    ON storage.objects FOR INSERT 
+    TO authenticated 
+    WITH CHECK (bucket_id = 'ticket-scans');
+
+-- 2. Users can only view their own, admins can view all
+CREATE POLICY "Users and admins can view ticket-scans" 
+    ON storage.objects FOR SELECT 
+    TO authenticated 
+    USING (bucket_id = 'ticket-scans' AND (split_part(name, '_', 1) = auth.uid()::text OR public.is_admin()));
+

@@ -253,6 +253,72 @@ export type Database = {
         }
         Relationships: []
       }
+      ticket_scans: {
+        Row: {
+          id: string
+          user_id: string | null
+          ticket_id: string | null
+          ticket_photo_url: string
+          ocr_text: string | null
+          bus_name: string | null
+          bus_number: string | null
+          from_stop: string | null
+          to_stop: string | null
+          fare: number | null
+          travel_date: string | null
+          travel_time: string | null
+          ticket_number: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          ticket_id?: string | null
+          ticket_photo_url: string
+          ocr_text?: string | null
+          bus_name?: string | null
+          bus_number?: string | null
+          from_stop?: string | null
+          to_stop?: string | null
+          fare?: number | null
+          travel_date?: string | null
+          travel_time?: string | null
+          ticket_number?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          ticket_id?: string | null
+          ticket_photo_url?: string
+          ocr_text?: string | null
+          bus_name?: string | null
+          bus_number?: string | null
+          from_stop?: string | null
+          to_stop?: string | null
+          fare?: number | null
+          travel_date?: string | null
+          travel_time?: string | null
+          ticket_number?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_scans_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_scans_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string

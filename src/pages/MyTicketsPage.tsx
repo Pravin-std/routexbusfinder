@@ -84,6 +84,22 @@ const MyTicketsPage = () => {
       </header>
 
       <main className="container max-w-lg pt-6 pb-24 md:pb-6">
+        {/* Toggle Tabs */}
+        <div className="grid grid-cols-2 gap-2 mb-6 bg-secondary/50 p-1 rounded-xl">
+          <button 
+            className="py-2 text-xs font-bold rounded-lg bg-card text-foreground shadow-sm"
+            disabled
+          >
+            Booked Tickets
+          </button>
+          <button 
+            className="py-2 text-xs font-bold rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/20 transition-all"
+            onClick={() => navigate("/scanned-tickets")}
+          >
+            Scanned Tickets
+          </button>
+        </div>
+
         {tickets.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-center">
             <TicketIcon className="h-10 w-10 text-muted-foreground" />
