@@ -17,6 +17,7 @@ export const useFavorites = () => {
       return new Set(data.map((f) => f.bus_route_id));
     },
     enabled: !!user,
+    staleTime: 1000 * 60 * 5, // 5 minutes cache
   });
 
   const toggleFavorite = useMutation({

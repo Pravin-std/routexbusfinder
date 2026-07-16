@@ -48,5 +48,6 @@ export const useBusSearch = (fromId: string, toId: string, enabled: boolean) => 
       return data as BusRoute[];
     },
     enabled,
+    staleTime: 1000 * 60 * 5, // 5 minutes cache
   });
 };
