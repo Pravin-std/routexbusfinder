@@ -170,7 +170,7 @@ const TicketFlow: React.FC<TicketFlowProps> = ({ open, onClose, bus }) => {
               throw new Error("Payment verification failed");
             }
 
-            await handlePaymentSuccess();
+            await handlePaymentSuccess(response.razorpay_payment_id);
           } catch (err: any) {
             toast({ title: "Verification Failed", description: err.message, variant: "destructive" });
             setStep("summary");
@@ -208,8 +208,8 @@ const TicketFlow: React.FC<TicketFlowProps> = ({ open, onClose, bus }) => {
     }
   };
 
-  const handlePaymentSuccess = async () => {
-    const t: SavedTicket = {
+  const handlePaymentSuccess = async (paymentId: string) => {
+    const t = {
       ticketId: generateTicketId(),
       passenger: passengerName,
       fromName,
@@ -220,47 +220,14 @@ const TicketFlow: React.FC<TicketFlowProps> = ({ open, onClose, bus }) => {
       arrival: bus.arrival,
       price: segmentPrice,
       issuedAt: new Date().toISOString(),
+      paymentId,
+      bus_route_id: bus.id,
+      from_id: fromId,
+      to_id: toId,
     };
     
-    // Save locally as fallback
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      const list: SavedTicket[] = raw ? JSON.parse(raw) : [];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([t, ...list].slice(0, 50)));
-    } catch {
-      /* ignore */
-    }
-
-    const isRealUser = user?.id && !user.id.startsWith("guest-");
-    
-    if (isRealUser) {
-      const { error } = await supabase.from("tickets").insert({
-        user_id: user.id,
-        ticket_code: t.ticketId,
-        passenger_name: t.passenger,
-        bus_route_id: bus.id,
-        bus_number: t.busNumber,
-        bus_name: t.busName,
-        from_id: fromId,
-        to_id: toId,
-        from_name: t.fromName,
-        to_name: t.toName,
-        departure: t.departure,
-        arrival: t.arrival,
-        price: t.price,
-        status: "paid",
-        issued_at: t.issuedAt,
-      });
-
-      if (error) {
-        toast({ title: "Error saving ticket", description: error.message, variant: "destructive" });
-        setStep("summary");
-        return;
-      }
-    }
-
     onClose();
-    navigate(`/ticket/${t.ticketId}`);
+    navigate(`/payment-success`, { state: { pendingTicket: t } });
   };
 
   return (

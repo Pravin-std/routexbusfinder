@@ -14,6 +14,7 @@ const ProfilePage = React.lazy(() => import("./pages/ProfilePage.tsx"));
 const MyTicketsPage = React.lazy(() => import("./pages/MyTicketsPage.tsx"));
 const MyScannedTicketsPage = React.lazy(() => import("./pages/MyScannedTicketsPage.tsx"));
 const TicketPage = React.lazy(() => import("./pages/TicketPage.tsx"));
+const PaymentSuccessPage = React.lazy(() => import("./pages/PaymentSuccessPage.tsx"));
 const AdminLayout = React.lazy(() => import("./layouts/AdminLayout.tsx").then(m => ({ default: m.AdminLayout })));
 const Dashboard = React.lazy(() => import("./pages/admin/Dashboard.tsx"));
 const RoutesManager = React.lazy(() => import("./pages/admin/RoutesManager.tsx"));
@@ -53,6 +54,7 @@ const App = () => (
                 <Route path="/tickets" element={<MyTicketsPage />} />
                 <Route path="/scanned-tickets" element={<MyScannedTicketsPage />} />
                 <Route path="/ticket/:ticketCode" element={<TicketPage />} />
+                <Route path="/payment-success" element={<PaymentSuccessPage />} />
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
                   <Route path="routes" element={<RoutesManager />} />
