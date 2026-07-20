@@ -6,15 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/contexts/AuthContext";
-import Index from "./pages/Index.tsx";
-import { InstallPrompt } from "@/components/InstallPrompt";
 
-const FavoritesPage = React.lazy(() => import("./pages/FavoritesPage.tsx"));
-const ProfilePage = React.lazy(() => import("./pages/ProfilePage.tsx"));
-const MyTicketsPage = React.lazy(() => import("./pages/MyTicketsPage.tsx"));
-const MyScannedTicketsPage = React.lazy(() => import("./pages/MyScannedTicketsPage.tsx"));
-const TicketPage = React.lazy(() => import("./pages/TicketPage.tsx"));
-const PaymentSuccessPage = React.lazy(() => import("./pages/PaymentSuccessPage.tsx"));
 const AdminLayout = React.lazy(() => import("./layouts/AdminLayout.tsx").then(m => ({ default: m.AdminLayout })));
 const Dashboard = React.lazy(() => import("./pages/admin/Dashboard.tsx"));
 const RoutesManager = React.lazy(() => import("./pages/admin/RoutesManager.tsx"));
@@ -44,18 +36,10 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <InstallPrompt />
           <BrowserRouter>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/favorites" element={<FavoritesPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/tickets" element={<MyTicketsPage />} />
-                <Route path="/scanned-tickets" element={<MyScannedTicketsPage />} />
-                <Route path="/ticket/:ticketCode" element={<TicketPage />} />
-                <Route path="/payment-success" element={<PaymentSuccessPage />} />
-                <Route path="/admin" element={<AdminLayout />}>
+                <Route path="/" element={<AdminLayout />}>
                   <Route index element={<Dashboard />} />
                   <Route path="routes" element={<RoutesManager />} />
                   <Route path="stops" element={<StopsManager />} />
